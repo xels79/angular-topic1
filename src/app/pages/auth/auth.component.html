@@ -1,7 +1,9 @@
-<div class="d-flex">
+<div>
   <p-tabView>
-    <p-tabPanel header="Авторизация">
-      <app-authorization></app-authorization>
+    <p-tabPanel [cache]="isTabCaching" header="Авторизация">
+      <ng-template pTemplate="content">
+        <app-authorization></app-authorization>
+      </ng-template>
     </p-tabPanel>
     <p-tabPanel header="Регистрация">
 

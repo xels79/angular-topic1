@@ -7,10 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class AuthorizationComponent implements OnInit {
-  property: string = '';
+  logIn: string ;
+  pswd:string;
+  checkedVIP:boolean;
+  vipCardNumber:string;
   constructor() { }
 
   ngOnInit(): void {
+    this.checkedVIP=false;
   }
 
 }

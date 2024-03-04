@@ -7,6 +7,7 @@ import { TabViewModule } from 'primeng/tabview';
 import { AuthComponent } from './auth.component'
 import { InputTextModule} from 'primeng/inputtext';
 import {FormsModule} from "@angular/forms";
+import { CheckboxModule } from 'primeng/checkbox';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import {FormsModule} from "@angular/forms";
     AuthRoutingModule,
     TabViewModule,
     InputTextModule,
-    FormsModule
+    FormsModule,
+    CheckboxModule
   ]
 })
 export class AuthModule { }
