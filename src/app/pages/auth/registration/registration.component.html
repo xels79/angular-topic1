@@ -1,1 +1,43 @@
-<p>registration works!</p>
+<div class="d-flex flex-column auth__form register__form">
+    <p class="fs-2 align-self-center">Авторизация</p>
+    <div class="input-group">
+        <span class="input-group-text form__label">Имя пользовотеля</span>
+        <input type="text" class="form-control"
+                type="text"
+                pInputText
+                [(ngModel)]="logIn"/>
+    </div>
+    <div class="input-group mt-3">
+        <span class="input-group-text form__label">Пароль</span>
+        <input type="text" class="form-control"
+                type="password" 
+                pInputText
+                [(ngModel)]="pswd"/>
+    </div>
+    <div class="input-group mt-3">
+        <span class="input-group-text form__label">Повтарите пароль</span>
+        <input type="text" class="form-control"
+                type="password" 
+                pInputText
+                [(ngModel)]="pswdRepeat"/>
+    </div>
+    <div class="input-group mt-3">
+        <span class="input-group-text form__label">Адрес электронной почты</span>
+        <input type="text" class="form-control"
+                type="text" 
+                pInputText
+                [(ngModel)]="email"/>
+    </div>
+    <div class="input-group mt-3">
+        <span class="input-group-text form__label">Номер карты</span>
+        <input class="form-control"
+                type="text" 
+                pInputText
+                [(ngModel)]="cardNumber"
+                placeholder="Укажите номер карты"
+        />
+    </div>
+    <div class="mt-3 d-flex align-self-center">
+        <button [disabled]="!logIn || !pswd" type="booton" (click)="onSignUp($event)" class="btn btn-success">Зарегистрироваться</button>
+    </div>
+</div>

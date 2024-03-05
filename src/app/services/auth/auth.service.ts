@@ -51,4 +51,12 @@ export class AuthService {
       return false;
     }
   }
+  getLastErrorText():string{
+    if (this.errors.length){
+      const error:IErrorMessage = this.errors.pop() as IErrorMessage;
+      return error.message;
+    }else{
+      return '';
+    }
+  }
 }
