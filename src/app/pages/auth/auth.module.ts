@@ -8,11 +8,13 @@ import { AuthComponent } from './auth.component'
 import { InputTextModule} from 'primeng/inputtext';
 import {FormsModule} from "@angular/forms";
 import { CheckboxModule } from 'primeng/checkbox';
+import { RegistrationComponent } from './registration/registration.component';
 
 @NgModule({
   declarations: [
     AuthorizationComponent,
     AuthComponent,
+    RegistrationComponent,
 
   ],
   imports: [

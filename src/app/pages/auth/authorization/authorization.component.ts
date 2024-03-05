@@ -11,10 +11,12 @@ export class AuthorizationComponent implements OnInit {
   pswd:string;
   checkedVIP:boolean;
   vipCardNumber:string;
+  bootonPrompt:string;
   constructor() { }
 
   ngOnInit(): void {
     this.checkedVIP=false;
+    this.bootonPrompt = 'Войти'
   }
 
 }
