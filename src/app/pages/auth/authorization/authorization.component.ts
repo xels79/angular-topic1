@@ -14,6 +14,8 @@ export class AuthorizationComponent implements OnInit {
   checkedVIP:boolean;
   vipCardNumber:string;
   bootonPrompt:string;
+  userHasEnter:boolean;
+  pswdHasEnter:boolean;
   constructor(
     private authService:AuthService,
     private messageService: MessageService
@@ -23,9 +25,17 @@ export class AuthorizationComponent implements OnInit {
     this.checkedVIP=false;
     this.bootonPrompt = 'Войти'
   }
+  onUHasEnter(){
+    this.userHasEnter = true;
+  }
+  onPswdEnter(){
+    this.pswdHasEnter = true;
+  }
   onLogin(){
     if (!this.authService.login(this.logIn,this.pswd)){
       this.messageService.add({severity:"error",summary:"Ошибка входа", detail:this.authService.getLastErrorText()});
+    }else{
+      this.messageService.add({severity:"success",summary:"Сообщение", detail:"Пользователь успешно вошел!"});
     }
   }
 
