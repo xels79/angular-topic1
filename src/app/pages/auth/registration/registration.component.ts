@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { AuthService } from 'src/app/services/auth/auth.service';
 @Component({
@@ -13,11 +14,15 @@ export class RegistrationComponent implements OnInit {
   pswdRepeat:string;
   cardNumber:string;
   email:string;
+  storeUser:boolean;
   
   constructor(
     private messageService: MessageService,
     private authService:AuthService,
-  ) { }
+    private router:Router
+  ) {
+    this.storeUser = true;
+   }
 
   ngOnInit(): void {
   }
@@ -27,10 +32,15 @@ export class RegistrationComponent implements OnInit {
     if (this.pswdRepeat !== this.pswd){
       this.messageService.add({severity:"error",summary:"Ошибка",detail:"Пароли не савподают."});
     }else{
-      if (!this.authService.signup(this.logIn,this.pswd, this.email ,this.cardNumber)){
+      if (!this.authService.signup(this.logIn,this.pswd, this.email ,this.cardNumber, this.storeUser)){
         this.messageService.add({severity:"error",summary:"Ошибка регистрации", detail:this.authService.getLastErrorText()});
       }else{
-        this.messageService.add({severity:"success",summary:"Сообщение", detail:"Пользователь успешно зарегестрировался!"});
+        this.router.navigate(['tickets']);
+        // this.messageService.add({
+        //   severity:"success",
+        //   summary:"Сообщение",
+        //   detail:"Пользователь успешно зарегестрировался!",
+        // });
       }
     }
   }
