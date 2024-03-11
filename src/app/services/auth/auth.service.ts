@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
-interface IUser{
-  username:string,
-  pswd:string,
-  email:string,
-  cardNumber?:string
-}
+import { IUser } from 'src/app/models/IUser';
+import { UserService } from '../user/user.service';
+
 interface IErrorMessage{
   fieldName:string,
   message:string
@@ -14,10 +11,8 @@ interface IErrorMessage{
   providedIn: 'root'
 })
 export class AuthService {
-  //private userStorage:IUser[]= [];
   private errors:IErrorMessage[] = [];
-  private _user:IUser|null = null;
-  constructor() { }
+  constructor(private userService:UserService) { }
   private set usersStorage(val:IUser[]){
     window.localStorage.setItem('ang_schk_users_store', JSON.stringify(val));
   }
@@ -29,34 +24,10 @@ export class AuthService {
       return [];
     }
   }
-  private set storedUser(_user:IUser|null){
-    if (_user){
-      window.localStorage.setItem('ang_schk_user_store', JSON.stringify(_user));
-    }else{
-      window.localStorage.removeItem('ang_schk_user_store');
-    }
-  }
-  private get storedUser():IUser|null{
-    const findedUser:string|null = window.localStorage.getItem('ang_schk_user_store')
-    if (findedUser){
-      return JSON.parse(findedUser);
-    }else{
-      return null;
-    }
-  }
-  get user():IUser|null{
-    if (this._user){
-      return this._user;
-    }else{
-      return this.storedUser;
-    }
-  }
+
   private proccedAuth(_user:IUser, storeUser?:boolean){
     this.errors = [];
-    this._user = _user;
-    if (storeUser){
-      this.storedUser = _user;    }
-
+    this.userService.setUser(_user, storeUser);
   }
   login(uname:string,pswd:string, storeUser?:boolean):boolean{
     const userExist:IUser|undefined = this.usersStorage.find(user=>user.username === uname);
@@ -75,8 +46,7 @@ export class AuthService {
     }
   }
   logout(){
-    this.storedUser = null;
-    this._user = null;
+    this.userService.setUser(null);
   }
   signup(uname:string,pswd:string,email:string, cardNumber?:string, storeUser?:boolean):boolean{
     const userExist:IUser|undefined = this.usersStorage.find(user=>user.username === uname);

@@ -1,3 +1,13 @@
 <div>
-    <p-menubar [model]="items"></p-menubar>
+    <p-menubar [model]="items">
+        <ng-template pTemplate="end">
+            <div class="d-flex">
+                <div class="me-3 fs-6 lh-sm">
+                    <div>{{currentDate | date:"HH:mm:ss"}}</div>
+                    <div>{{currentDate | date:"EE, d MMMM yг"}}</div>
+                </div>
+                <p-chip icon="pi pi-user" [label]="user.username | titlecase"></p-chip>
+            </div>
+        </ng-template>
+    </p-menubar>
 </div>
