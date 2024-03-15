@@ -88,4 +88,7 @@ export class AuthService {
       return '';
     }
   }
+  get isAuthorized():boolean{
+    return this.userService.getUser()!==null; 
+  }
 }

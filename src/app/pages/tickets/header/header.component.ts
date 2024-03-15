@@ -1,3 +1,4 @@
+import { AuthService } from 'src/app/services/auth/auth.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { UserService } from 'src/app/services/user/user.service';
@@ -12,7 +13,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   currentDate:Date;
   private dateTimerID:number;
   constructor(
-    public user:UserService
+    public user:UserService,
+    private authService:AuthService
   ) { }
 
   ngOnInit(): void {
@@ -25,7 +27,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
       {
           label: 'Выйти',
           icon: 'pi pi-fw pi-power-off',
-          routerLink:['auth']
+          command:()=>{this.authService.logout()},
+          routerLink:['/auth']
       }
     ];
     this.dateTimerID = window.setInterval(()=>{
