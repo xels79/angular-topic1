@@ -9,6 +9,8 @@ import { TicketListComponent } from './ticket-list/ticket-list.component';
 import { AsideComponent } from './aside/aside.component';
 import { MenubarModule } from 'primeng/menubar';
 import { ChipModule } from 'primeng/chip';
+import { FormsModule } from '@angular/forms';
+import { DropdownModule } from 'primeng/dropdown';
 
 @NgModule({
   declarations: [
@@ -23,6 +25,8 @@ import { ChipModule } from 'primeng/chip';
     TicketsRoutingModule,
     MenubarModule,
     ChipModule,
+    DropdownModule,
+    FormsModule 
   ],
 })
 export class TicketsModule { }
