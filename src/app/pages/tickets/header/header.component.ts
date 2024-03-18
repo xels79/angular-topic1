@@ -1,7 +1,8 @@
 import { AuthService } from 'src/app/services/auth/auth.service';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, OnChanges, Input, SimpleChanges } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { UserService } from 'src/app/services/user/user.service';
+import { IMenuType } from 'src/app/models/IMenuType ';
 
 @Component({
   selector: 'app-header',
@@ -11,6 +12,8 @@ import { UserService } from 'src/app/services/user/user.service';
 export class HeaderComponent implements OnInit, OnDestroy {
   items: MenuItem[];
   currentDate:Date;
+  settingsActive:boolean;
+  @Input() menuType:IMenuType;
   private dateTimerID:number;
   constructor(
     public user:UserService,
@@ -18,19 +21,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.items = [
-      {
-          label: 'Билеты',
-          icon: 'pi pi-fw pi-file',
-          routerLink:['/tickets']
-      },
-      {
-          label: 'Выйти',
-          icon: 'pi pi-fw pi-power-off',
-          command:()=>{this.authService.logout()},
-          routerLink:['/auth']
-      }
-    ];
+    this.settingsActive = false;
+    this.items = this.createMenuItems();
     this.dateTimerID = window.setInterval(()=>{
       this.currentDate = new Date();
     }, 1000);
@@ -39,5 +31,30 @@ export class HeaderComponent implements OnInit, OnDestroy {
     if (this.dateTimerID){
       window.clearInterval(this.dateTimerID);
     }
+  }
+  ngOnChanges(ev: SimpleChanges):void{
+    this.settingsActive = this.menuType?.type==='extended';
+    this.items = this.createMenuItems();
+  }
+
+  private createMenuItems():MenuItem[]{
+    return [
+      {
+          label: 'Билеты',
+          icon: 'pi pi-fw pi-file',
+          routerLink:['/tickets']
+      },
+      {
+        label:"Настройки",
+        icon: 'pi pi-fw pi-cog',
+        visible: this.settingsActive
+      },
+      {
+          label: 'Выйти',
+          icon: 'pi pi-fw pi-sign-out',
+          command:()=>{this.authService.logout()},
+          routerLink:['/auth']
+      }
+    ];
   }
 }

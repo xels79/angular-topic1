@@ -11,6 +11,8 @@ import { MenubarModule } from 'primeng/menubar';
 import { ChipModule } from 'primeng/chip';
 import { FormsModule } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
+import { VisualSearchComponent } from './ticket-list/visual-search/visual-search.component';
+import { ProgressBarModule } from 'primeng/progressbar';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,8 @@ import { DropdownModule } from 'primeng/dropdown';
     HeaderComponent,
     FooterComponent,
     TicketListComponent,
-    AsideComponent
+    AsideComponent,
+    VisualSearchComponent
   ],
   imports: [
     CommonModule,
@@ -26,7 +29,8 @@ import { DropdownModule } from 'primeng/dropdown';
     MenubarModule,
     ChipModule,
     DropdownModule,
-    FormsModule 
+    FormsModule,
+    ProgressBarModule
   ],
 })
 export class TicketsModule { }

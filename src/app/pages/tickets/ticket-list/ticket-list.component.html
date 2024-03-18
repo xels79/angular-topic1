@@ -1,1 +1,23 @@
-<p>ticket-list works!</p>
+<div class="input-group input-group-sm mb-3">
+    <span class="input-group-text" id="inputGroup-sizing-sm">Поиск по названию:</span>
+    <input [(ngModel)]="searchString" (keyup)="searchPress($event)" type="text" class="form-control" aria-label="search by name" aria-describedby="inputGroup-sizing-sm">
+    <button (click)="searchClear($event)" class="btn btn-outline-secondary" type="button" id="button-clear-search">Очистить</button>
+</div>
+<p-progressBar *ngIf="showLoading" mode="indeterminate" [style]="{ height: '6px' }"></p-progressBar>
+<div class="tickets__list">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        <div *ngFor="let item of tickets" class="col">
+            <div class="card d-flex flex-column">
+                <img src="/assets/img/{{item.img}}" class="card-img-top flex-fill" alt="Картинка">
+                <div class="card-body d-flex flex-column">
+                    <app-visual-search [value]="item.name" [search]="doSearchString"></app-visual-search>
+                    <p class="card-text flex-fill">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                    <p class="card-text"><small class="text-body-secondary">Coast: {{item.price}}</small></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="tickets__empty" *ngIf="!tickets.length">
+        <div><i class="pi pi-question-circle" style="font-size: 2.5rem"></i></div><div>Ничего не найдено</div>
+    </div>
+</div>

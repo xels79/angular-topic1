@@ -1,17 +1,19 @@
+import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import ITour from 'src/app/models/ITour';
+import { TicketRestService } from '../rest/ticket-rest.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TiсketsStorageService {
 
-  constructor() { }
+  constructor(private ticketRestService:TicketRestService) { }
   setStorage(data: ITour[]): void {
     // запись данных в this.ticketStorage
   }
-  getStorage(): ITour[] {
+  getStorage(): Observable<ITour[]> {
       // возвращает в this.ticketStorage
-      return [];
+      return this.ticketRestService.getTickets();
   }
 }

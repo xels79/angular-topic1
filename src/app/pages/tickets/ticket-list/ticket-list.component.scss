@@ -1,0 +1,21 @@
+:host{
+    padding: 1rem 3rem;
+}
+.card{
+    min-height: 445px;
+}
+.tickets__list{
+    padding: .5rem 0;
+    width: 100%;
+    >.tickets__empty{
+        text-align: center;
+        margin:2rem 0;
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: center;
+        align-items:center;
+        >div{
+            margin: 0 .5rem;
+        }
+    }
+}
