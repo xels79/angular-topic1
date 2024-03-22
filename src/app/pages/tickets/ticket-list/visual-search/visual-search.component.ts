@@ -1,19 +1,25 @@
-import { Component, OnInit, Input } from '@angular/core';
-
+import { Component, OnInit, OnChanges, Input } from '@angular/core';
 @Component({
   selector: 'app-visual-search',
   templateUrl: './visual-search.component.html',
-  styleUrls: ['./visual-search.component.scss']
+  styleUrls: ['./visual-search.component.scss'],
 })
-export class VisualSearchComponent implements OnInit {
-  @Input() value:string='';
+export class VisualSearchComponent implements OnInit, OnChanges{
+  @Input() value:string;
   @Input() search:string;
-  startPart:string='';
-  middlePart:string='';
-  endPart:string='';
+  startPart:string;
+  middlePart:string;
+  endPart:string;
   constructor() { }
 
   ngOnInit(): void {
+    this.search = this.search || '';
+    this.value = this.value || '';
+  }
+  ngOnChanges():void{
+    this.startPart='';
+    this.middlePart='';
+    this.endPart='';
     this.search = this.search || '';
     const pos=this.value.toLowerCase().indexOf(this.search.toLowerCase());
     if (pos===-1){
