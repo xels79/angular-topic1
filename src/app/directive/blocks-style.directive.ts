@@ -23,6 +23,7 @@ export class BlocksStyleDirective implements AfterViewInit, OnChanges{
   private items:HTMLElement[];
   private index=0;
   private firstPress=true;
+  private itCnt=0;
   constructor(private el:ElementRef) { }
   ngOnChanges(changes: SimpleChanges): void {
     console.log("oncgh");
@@ -30,6 +31,7 @@ export class BlocksStyleDirective implements AfterViewInit, OnChanges{
   ngAfterViewInit(): void {
     if (this.selector){
       this.items = this.el.nativeElement.querySelectorAll(this.selector);
+      this.itCnt = this.items.length;
       if (this.autoInit){
         this.firstPress = false;
         this.proceedWithElement();
@@ -49,8 +51,14 @@ export class BlocksStyleDirective implements AfterViewInit, OnChanges{
   }
   keyUpEvent(e:KeyboardEvent):void{
     if (e.key === 'ArrowRight' || e.key === "ArrowLeft"){
+      const tmpIt:HTMLElement[] = this.el.nativeElement.querySelectorAll(this.selector);
       this.items[this.index].classList.remove('border-danger');
       this.items[this.index].classList.remove('border-3');
+      if (this.itCnt !== tmpIt.length){
+        this.items = tmpIt;
+        this.itCnt = tmpIt.length;
+        this.index = 0;
+      }
       if (e.key === 'ArrowRight'){
         if (!this.autoInit && !this.index && this.firstPress){
           this.firstPress = false;
