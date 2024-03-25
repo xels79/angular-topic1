@@ -5,15 +5,20 @@
 </div>
 <p-progressBar *ngIf="showLoading" mode="indeterminate" [style]="{ height: '6px' }"></p-progressBar>
 <div class="tickets__list">
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    <div
+      appBlocksStyle
+      [selector]="'.card'"
+      [autoInit]="true"
+      *ngIf="tickets.length>0"
+      class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         <div *ngFor="let item of tickets" class="col">
             <div class="card d-flex flex-column">
                 <img src="/assets/img/{{item.img}}" class="card-img-top flex-fill" alt="Картинка">
                 <div class="card-body d-flex flex-column">
                     <app-visual-search [value]="item.name" [search]="doSearchString"></app-visual-search>
-                    <p class="card-text flex-fill">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                    <p class="card-text"><small class="text-body-secondary">Coast: {{item.price}}</small></p>
+                    <p class="card-text">{{item.description}}</p>
                 </div>
+                <div class="card-footer text-muted"><small class="text-body-secondary">Coast: {{item.price}}</small></div>
             </div>
         </div>
     </div>

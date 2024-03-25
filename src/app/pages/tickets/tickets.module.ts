@@ -13,6 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
 import { VisualSearchComponent } from './ticket-list/visual-search/visual-search.component';
 import { ProgressBarModule } from 'primeng/progressbar';
+import { BlocksStyleDirective } from 'src/app/directive/blocks-style.directive';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { ProgressBarModule } from 'primeng/progressbar';
     FooterComponent,
     TicketListComponent,
     AsideComponent,
-    VisualSearchComponent
+    VisualSearchComponent,
+    BlocksStyleDirective
   ],
   imports: [
     CommonModule,

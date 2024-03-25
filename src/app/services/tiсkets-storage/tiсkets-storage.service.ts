@@ -7,13 +7,17 @@ import { TicketRestService } from '../rest/ticket-rest.service';
   providedIn: 'root'
 })
 export class TiсketsStorageService {
-
+  private storage:ITour[]|undefined
   constructor(private ticketRestService:TicketRestService) { }
   setStorage(data: ITour[]): void {
-    // запись данных в this.ticketStorage
+    this.storage = data;
   }
-  getStorage(): Observable<ITour[]> {
+  getStorage(): ITour[] {
       // возвращает в this.ticketStorage
-      return this.ticketRestService.getTickets();
+      if (this.storage){
+        return this.storage;
+      }else{
+        return [];
+      }
   }
 }
