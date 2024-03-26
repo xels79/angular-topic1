@@ -1,0 +1,20 @@
+<div class="ticket">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/tickets/list">Назад</a></li>
+      <li class="breadcrumb-item active" aria-current="page" *ngIf="ticket">{{ticket.name}}</li>
+    </ol>
+  </nav>
+  <div class="ticket__content" *ngIf="ticket">
+    <div class="card bg-dark text-white">
+      <img src="/assets/img/{{ticket.img}}" class="card-img" alt="...">
+      <div class="card-img-overlay">
+        <h5 class="card-title">{{ticket.name}}</h5>
+        <p class="card-text fw-bold">{{ticket.description}}</p>
+      </div>
+    </div>
+  </div>
+  <div class="ticket__notfound" *ngIf="!ticket">
+    <div class="text-danger"><i class="pi pi-question-circle" style="font-size: 2.5rem"></i><div>Тур не найден!</div></div>
+  </div>
+</div>

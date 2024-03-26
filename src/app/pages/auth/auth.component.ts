@@ -13,7 +13,7 @@ export class AuthComponent implements OnInit {
   isTabCaching: false;
   ngOnInit(): void {
     if (this.authService.isAuthorized){
-      this.router.navigate(['/tickets']);
+      this.router.navigate(['/tickets/list']);
     }
   }
 

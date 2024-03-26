@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import ITour from 'src/app/models/ITour';
 import { TicketRestService } from 'src/app/services/rest/ticket-rest.service';
 import { TiсketsStorageService } from 'src/app/services/tiсkets-storage/tiсkets-storage.service';
@@ -16,18 +17,22 @@ export class TicketListComponent implements OnInit{
   showLoading:boolean;
   constructor(
     private ticketsStorage:TiсketsStorageService,
-    private ticketRest:TicketRestService
+    private ticketRest:TicketRestService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
-    this.showLoading = true;
-    this.ticketRest.getTickets().subscribe(
-      (data)=>{
-        this.ticketsStorage.setStorage(data);
-        this.tickets = data;
-        this.showLoading = false;
-      }
-    );
+    this.tickets = this.ticketsStorage.getStorage();
+    if (!this.tickets.length){
+      this.showLoading = true;
+      this.ticketRest.getTickets().subscribe(
+        (data)=>{
+          this.ticketsStorage.setStorage(data);
+          this.tickets = data;
+          this.showLoading = false;
+        }
+      );
+    }
   }
   searchPress(event:KeyboardEvent){
     if (this.searchString?.length>3){
@@ -35,10 +40,11 @@ export class TicketListComponent implements OnInit{
         this.doSearchString = this.searchString;
         this.tickets = this.ticketsStorage.getStorage().filter(ticket=>ticket.name.toLowerCase().indexOf(this.doSearchString.toLowerCase()) > -1);
       }
-    }else{
+    }else if(this.doSearchString){
       this.doSearchString = '';
       this.tickets = [...this.ticketsStorage.getStorage()];
     }
+    //event.stopPropagation();
   }
   searchClear(event:MouseEvent){
     this.searchString = '';
@@ -46,5 +52,8 @@ export class TicketListComponent implements OnInit{
       this.doSearchString = '';
       this.tickets = [...this.ticketsStorage.getStorage()];
     }
+  }
+  ticketClick(id:string){
+    this.router.navigate(['/tickets/ticket',id]);
   }
 }

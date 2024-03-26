@@ -24,7 +24,7 @@ export class AuthorizationComponent implements OnInit {
     private router:Router
   ) {
     this.storeUser = true;
-   }
+  }
 
   ngOnInit(): void {
     this.checkedVIP=false;
@@ -40,8 +40,7 @@ export class AuthorizationComponent implements OnInit {
     if (!this.authService.login(this.logIn,this.pswd, this.storeUser)){
       this.messageService.add({severity:"error",summary:"Ошибка входа", detail:this.authService.getLastErrorText()});
     }else{
-      this.router.navigate(['tickets']);
-      //this.messageService.add({severity:"success",summary:"Сообщение", detail:"Пользователь успешно вошел!"});
+      this.router.navigate(['tickets/list']);
     }
   }
 

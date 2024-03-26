@@ -1,0 +1,10 @@
+.ticket{
+  padding: .5rem 1rem;
+  >.ticket__content .card-text{
+    padding: 1rem 2rem;
+    background: rgba(0,0,100,.27);
+  }
+}
+.ticket__notfound{
+  text-align: center;
+}

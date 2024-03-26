@@ -15,7 +15,7 @@ export class RegistrationComponent implements OnInit {
   cardNumber:string;
   email:string;
   storeUser:boolean;
-  
+
   constructor(
     private messageService: MessageService,
     private authService:AuthService,
@@ -35,12 +35,7 @@ export class RegistrationComponent implements OnInit {
       if (!this.authService.signup(this.logIn,this.pswd, this.email ,this.cardNumber, this.storeUser)){
         this.messageService.add({severity:"error",summary:"Ошибка регистрации", detail:this.authService.getLastErrorText()});
       }else{
-        this.router.navigate(['tickets']);
-        // this.messageService.add({
-        //   severity:"success",
-        //   summary:"Сообщение",
-        //   detail:"Пользователь успешно зарегестрировался!",
-        // });
+        this.router.navigate(['tickets/list']);
       }
     }
   }

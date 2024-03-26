@@ -42,11 +42,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
       {
           label: 'Билеты',
           icon: 'pi pi-fw pi-file',
-          routerLink:['/tickets']
+          routerLink:['/tickets/list'],
+          routerLinkActiveOptions:["p-highlight"]
       },
       {
         label:"Настройки",
         icon: 'pi pi-fw pi-cog',
+        routerLink:['/tickets/settings'],
         visible: this.settingsActive
       },
       {
