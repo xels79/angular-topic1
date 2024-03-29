@@ -1,6 +1,6 @@
 <form #it="ngForm" (ngSubmit)="onSignUp($event)" novalidate>
 <div class="d-flex flex-column auth__form register__form">
-    <p class="fs-2 align-self-center">Авторизация</p>
+    <p class="fs-2 align-self-center">Регистрация</p>
     <div class="input-group">
         <span class="input-group-text form__label">Имя пользователя</span>
         <input type="text" class="form-control"
@@ -8,48 +8,68 @@
                 pInputText
                 [(ngModel)]="logIn"
                 name="username"
+                [class]="{
+                  'is-valid':(visited.username && logIn && !hasError('username')),
+                  'is-invalid':hasError('username') || (visited.username && !logIn)
+                }"
+                (blur)="setVisited('username')"
                 />
     </div>
     <div class="input-group mt-3">
         <span class="input-group-text form__label">Пароль</span>
         <input type="text" class="form-control"
-                type="password" 
+                type="password"
                 pInputText
                 [(ngModel)]="pswd"
                 name="password"
-                autocomplete="off"  
+                autocomplete="off"
+                (blur)="setVisited('password')"
+                [class]="{
+                  'is-valid':(visited.password && logIn && !hasError('password')),
+                  'is-invalid':hasError('password') || (visited.password && !pswd)
+                }"
                 />
     </div>
     <div class="input-group mt-3">
         <span class="input-group-text form__label">Повторите пароль</span>
         <input type="text" class="form-control"
-                type="password" 
+                type="password"
                 pInputText
                 [(ngModel)]="pswdRepeat"
                 name="pswdRepeat"
                 autocomplete="off"
+                (blur)="setVisited('pswdRepeat')"
+                [class]="{
+                  'is-valid':(visited.pswdRepeat && pswdRepeat && !hasError('pswdRepeat')),
+                  'is-invalid':hasError('pswdRepeat') || (visited.pswdRepeat && !pswdRepeat)
+                }"
                 />
     </div>
     <div class="input-group mt-3">
         <span class="input-group-text form__label">Адрес электронной почты</span>
         <input type="text" class="form-control"
-                type="text" 
+                type="text"
                 pInputText
                 [(ngModel)]="email"
                 name="email"
+                (blur)="setVisited('email')"
+                [class]="{
+                  'is-valid':(visited.email && email && !hasError('email')),
+                  'is-invalid':hasError('email') || (visited.email && !email)
+                }"
             />
     </div>
     <div class="input-group mt-3">
         <span class="input-group-text form__label">Номер карты</span>
         <input class="form-control"
-                type="text" 
+                type="text"
                 pInputText
                 [(ngModel)]="cardNumber"
                 placeholder="Укажите номер карты"
                 name="cardNumber"
         />
     </div>
-    <div class="mt-3">              
+    <div class="mt-3">
         <p-checkbox
             [(ngModel)]="storeUser"
             [binary]="true"

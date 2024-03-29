@@ -1,11 +1,8 @@
 import { Injectable } from '@angular/core';
 import { IUser } from 'src/app/models/IUser';
 import { UserService } from '../user/user.service';
+import { IErrorMessage } from 'src/app/models/IErrorMessage';
 
-interface IErrorMessage{
-  fieldName:string,
-  message:string
-}
 
 @Injectable({
   providedIn: 'root'
@@ -59,16 +56,15 @@ export class AuthService {
           email:email
       }
       if (!email){
-        this.errors.push({fieldName:'email', message:'Неоюходимо указать почту'});
-        return false;  
-      }
-      if (!/^[^.][A-Z0-9._%+-]+@[A-Z0-9-]+\.{1}[A-Z]{2,4}$/i.test(email)){
+        this.errors.push({fieldName:'email', message:'Необходимо указать почту'});
+      }else if (!/^[^.][A-Z0-9._%+-]+@[A-Z0-9-]+\.{1}[A-Z]{2,4}$/i.test(email)){
         this.errors.push({fieldName:'email', message:'Формат поля "Почта" должен соответствовать email адресу'});
-        return false;  
       }
       if (pswd.length<8){
         this.errors.push({fieldName:'pswd', message:'Поле "Пароль" должно содержать не менее 8-ми символов!'});
-        return false;  
+      }
+      if (this.errors.length){
+        return false;
       }
       const _uStoreg = this.usersStorage;
       _uStoreg.push(user);
@@ -88,7 +84,15 @@ export class AuthService {
       return '';
     }
   }
+  getLastError():IErrorMessage|undefined{
+    return this.errors.pop();
+  }
+  getErrors():IErrorMessage[]{
+    const retValue = [... this.errors];
+    this.errors = [];
+    return retValue;
+  }
   get isAuthorized():boolean{
-    return this.userService.getUser()!==null; 
+    return this.userService.getUser()!==null;
   }
 }
