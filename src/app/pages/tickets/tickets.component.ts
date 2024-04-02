@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { IMenuType } from 'src/app/models/IMenuType ';
 
 @Component({
@@ -8,8 +9,8 @@ import { IMenuType } from 'src/app/models/IMenuType ';
 })
 export class TicketsComponent implements OnInit {
   selectedType: IMenuType
- 
-  constructor() { }
+
+  constructor(private route: ActivatedRoute) { }
 
   ngOnInit(): void {
   }
