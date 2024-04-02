@@ -3,6 +3,7 @@ import { Component, OnDestroy, OnInit, OnChanges, Input, SimpleChanges } from '@
 import { MenuItem } from 'primeng/api';
 import { UserService } from 'src/app/services/user/user.service';
 import { IMenuType } from 'src/app/models/IMenuType ';
+import { PrimeNGConfig } from 'primeng/api';
 
 @Component({
   selector: 'app-header',
@@ -17,10 +18,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private dateTimerID:number;
   constructor(
     public user:UserService,
-    private authService:AuthService
+    private authService:AuthService,
+    private config: PrimeNGConfig
   ) { }
 
   ngOnInit(): void {
+    this.config.setTranslation({
+      clear:'Очистить',
+      today:'Сегодня'
+    });
     this.settingsActive = false;
     this.items = this.createMenuItems();
     this.dateTimerID = window.setInterval(()=>{

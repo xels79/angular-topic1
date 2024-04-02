@@ -1,5 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { IMenuType } from 'src/app/models/IMenuType ';
+import { ITourTypeSelect } from 'src/app/models/ITourTypeSelect';
+import { TicketService } from 'src/app/services/ticket/ticket.service';
 
 @Component({
   selector: 'app-aside',
@@ -9,8 +11,16 @@ import { IMenuType } from 'src/app/models/IMenuType ';
 export class AsideComponent implements OnInit {
   menuTypes: IMenuType[];
   selectedMenuType: IMenuType;
-  @Output() changeTourType = new EventEmitter<IMenuType>();
-  constructor() { }
+  selectedTourType:ITourTypeSelect;
+  selectedTourDate:string;
+  private oldSelectedTourDate:string;
+  tourTypes: ITourTypeSelect[] = [
+    {label: 'Все', value: 'all'},
+    {label: 'Одиночный', value: 'single'},
+    {label: 'Групповой', value: 'multi'}
+  ]
+  @Output() changeMenuType = new EventEmitter<IMenuType>();
+  constructor(private ticketService:TicketService) { }
 
   ngOnInit(): void {
     this.menuTypes = [
@@ -20,7 +30,25 @@ export class AsideComponent implements OnInit {
   }
   onTypeChange(event:any){
     if (event.value){
-      this.changeTourType.emit(event.value as IMenuType);
+      this.changeMenuType.emit(event.value as IMenuType);
+    }
+  }
+
+  changeTourType(ev:  {ev: Event, value: ITourTypeSelect}): void {
+    if (this.selectedTourDate){
+      this.ticketService.updateTour({...ev.value, date:this.selectedTourDate});
+    }else{
+      this.ticketService.updateTour(ev.value);
+    }
+  }
+  checkDate(){
+    if (this.selectedTourDate != this.oldSelectedTourDate){
+      this.oldSelectedTourDate = this.selectedTourDate;
+      if (this.selectedTourDate){
+        this.ticketService.updateTour({date:this.selectedTourDate, ...this.selectedTourType});
+      }else{
+        this.ticketService.updateTour(this.selectedTourType);
+      }
     }
   }
 

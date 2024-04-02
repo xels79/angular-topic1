@@ -14,6 +14,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { VisualSearchComponent } from './ticket-list/visual-search/visual-search.component';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { BlocksStyleDirective } from 'src/app/directive/blocks-style.directive';
+import { CalendarModule } from 'primeng/calendar';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { BlocksStyleDirective } from 'src/app/directive/blocks-style.directive';
     ChipModule,
     DropdownModule,
     FormsModule,
-    ProgressBarModule
+    ProgressBarModule,
+    CalendarModule
   ],
 })
 export class TicketsModule { }

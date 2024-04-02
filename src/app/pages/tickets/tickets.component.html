@@ -1,13 +1,13 @@
 <div class="h-100 d-flex flex-column">
     <header>
-        <app-header [menuType]="selectedType"></app-header>
+        <app-header [menuType]="selectedMenuType"></app-header>
     </header>
     <div class="main__content flex-grow-1 d-flex">
         <div class="flex-grow-1">
             <router-outlet></router-outlet>
         </div>
         <div>
-            <app-aside (changeTourType)="updateSelectedType($event)"></app-aside>
+            <app-aside (changeMenuType)="updateSelectedType($event)"></app-aside>
         </div>
     </div>
     <footer>

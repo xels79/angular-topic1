@@ -1,28 +1,40 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy,AfterViewInit, AfterViewChecked, AfterContentInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Observable, Subject, Subscription } from 'rxjs';
 import ITour from 'src/app/models/ITour';
+import { ITourTypeSelect } from 'src/app/models/ITourTypeSelect';
 import { TicketRestService } from 'src/app/services/rest/ticket-rest.service';
+import { TicketService } from 'src/app/services/ticket/ticket.service';
 import { TiсketsStorageService } from 'src/app/services/tiсkets-storage/tiсkets-storage.service';
+import {formatDate} from '@angular/common'
 
 @Component({
   selector: 'app-ticket-list',
   templateUrl: './ticket-list.component.html',
   styleUrls: ['./ticket-list.component.scss']
 })
-export class TicketListComponent implements OnInit{
+export class TicketListComponent implements OnInit, OnDestroy{
 
   tickets: ITour[]=[];
   searchString:string;
-  doSearchString:string;
   showLoading:boolean;
+  updater:Observable<{action:string,value:string | number | undefined}>
+  private tourUnsubscriber: Subscription;
+  private childUpdater: Subject<{action:string,value:string | number | undefined}>;
+  private tourSelectedType:ITourTypeSelect | undefined;
+
   constructor(
     private ticketsStorage:TiсketsStorageService,
     private ticketRest:TicketRestService,
-    private router: Router
+    private router: Router,
+    private ticketService:TicketService
   ) { }
 
   ngOnInit(): void {
+    this.childUpdater = new Subject<{action:string,value:string | number | undefined}>();
+    this.updater = this.childUpdater.asObservable();
     this.tickets = this.ticketsStorage.getStorage();
+    this.searchString = this.ticketService.doSearchString;
     if (!this.tickets.length){
       this.showLoading = true;
       this.ticketRest.getTickets().subscribe(
@@ -32,28 +44,74 @@ export class TicketListComponent implements OnInit{
           this.showLoading = false;
         }
       );
+      }
+    this.tourUnsubscriber = this.ticketService
+                                .getTicketTypeObservable()
+                                .subscribe(data=>{this.doFiltering(data)});
+  }
+  ngOnDestroy(): void {
+    this.tourUnsubscriber.unsubscribe();
+  }
+  private doFiltering(data:ITourTypeSelect | undefined):void{
+    console.log('data', data);
+    const dateValue = data?this.createDate(data.date):"";
+    switch (data?.value) {
+      case "single":
+      case "multi":
+        this.tickets = [...this.ticketsStorage.getStorage().filter((el) =>
+          el.type === data.value
+          && (!dateValue || dateValue === el.date)
+          && (!this.ticketService.doSearchString || el.name.toLowerCase().indexOf(this.ticketService.doSearchString.toLowerCase()) > -1)
+        )];
+        break;
+      default:
+        this.tickets = [...this.ticketsStorage.getStorage().filter(el=>
+          (!dateValue || dateValue === el.date)
+          && (!this.ticketService.doSearchString || el.name.toLowerCase().indexOf(this.ticketService.doSearchString.toLowerCase()) > -1)
+        )];
+        break;
+    }
+    this.tourSelectedType = data;
+    this.childUpdater.next({action:"items", value:"searching by params"});
+  }
+  private createDate(date:string|undefined|null):string{
+    let dateValue:string;
+    if (date) {
+      return formatDate(date,"YYYY-MM-dd","ru");
+    }else{
+      return "";
     }
   }
   searchPress(event:KeyboardEvent){
     if (this.searchString?.length>3){
-      if (this.doSearchString !== this.searchString){
-        this.doSearchString = this.searchString;
-        this.tickets = this.ticketsStorage.getStorage().filter(ticket=>ticket.name.toLowerCase().indexOf(this.doSearchString.toLowerCase()) > -1);
+      if (this.ticketService.doSearchString !== this.searchString){
+        this.ticketService.doSearchString = this.searchString;
+        this.ticketService.updateTour(this.tourSelectedType);
       }
-    }else if(this.doSearchString){
-      this.doSearchString = '';
-      this.tickets = [...this.ticketsStorage.getStorage()];
+    }else if(this.ticketService.doSearchString){
+      this.ticketService.doSearchString = '';
+      this.ticketService.updateTour(this.tourSelectedType);
     }
-    //event.stopPropagation();
   }
   searchClear(event:MouseEvent){
     this.searchString = '';
-    if (this.doSearchString){
-      this.doSearchString = '';
-      this.tickets = [...this.ticketsStorage.getStorage()];
+    if (this.ticketService.doSearchString){
+      this.ticketService.doSearchString = '';
+      this.childUpdater.next({action:"items", value:"search is cleared"});
     }
   }
-  ticketClick(id:string){
+  ticketDblClick(id:string){
+    console.log('dblk');
     this.router.navigate(['/tickets/ticket',id]);
+  }
+  get doSearchString():string{
+    return this.ticketService.doSearchString;
+  }
+  get lastItemIndex():number{
+    return this.ticketService.lastItemIndex?this.ticketService.lastItemIndex:0;
+  }
+  onItemSelect(index:number){
+    console.log("item",index);
+    this.ticketService.lastItemIndex = index;
   }
 }
