@@ -104,6 +104,12 @@ export class TicketListComponent implements OnInit, OnDestroy{
     console.log('dblk');
     this.router.navigate(['/tickets/ticket',id]);
   }
+  onItemEnter(index:number){
+    console.log('ent',index);
+    if (index<this.tickets.length){
+      this.router.navigate(['/tickets/ticket',this.tickets[index].id]);
+    }
+  }
   get doSearchString():string{
     return this.ticketService.doSearchString;
   }
