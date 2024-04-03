@@ -97,6 +97,7 @@ export class TicketListComponent implements OnInit, OnDestroy{
     this.searchString = '';
     if (this.ticketService.doSearchString){
       this.ticketService.doSearchString = '';
+      this.ticketService.updateTour(this.tourSelectedType);
       this.childUpdater.next({action:"items", value:"search is cleared"});
     }
   }
@@ -117,7 +118,7 @@ export class TicketListComponent implements OnInit, OnDestroy{
     return this.ticketService.lastItemIndex?this.ticketService.lastItemIndex:0;
   }
   onItemSelect(index:number){
-    console.log("item",index);
+    console.log("tl - itemselect",index);
     this.ticketService.lastItemIndex = index;
   }
 }

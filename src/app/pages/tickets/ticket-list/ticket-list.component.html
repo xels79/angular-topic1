@@ -1,7 +1,15 @@
 <div class="input-group input-group-sm mb-3">
     <span class="input-group-text" id="inputGroup-sizing-sm">Поиск по названию:</span>
-    <input [(ngModel)]="searchString" (keyup)="searchPress($event)" type="text" class="form-control" aria-label="search by name" aria-describedby="inputGroup-sizing-sm">
-    <button (click)="searchClear($event)" class="btn btn-outline-secondary" type="button" id="button-clear-search">Очистить</button>
+    <input
+      [(ngModel)]="searchString"
+      (keyup)="searchPress($event)"
+      type="text"
+      class="form-control"
+      aria-label="search by name"
+      aria-describedby="inputGroup-sizing-sm"
+      tabindex="1"
+    >
+    <button tabindex="2" (click)="searchClear($event)" class="btn btn-outline-secondary" type="button" id="button-clear-search">Очистить</button>
 </div>
 <p-progressBar *ngIf="showLoading" mode="indeterminate" [style]="{ height: '6px' }"></p-progressBar>
 <div class="tickets__list">

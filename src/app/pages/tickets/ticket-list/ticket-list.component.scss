@@ -1,5 +1,11 @@
 :host{
     padding: 1rem 3rem;
+    .row{
+      &:focus-visible{
+        border: none;
+        outline:none;
+      }
+    }
 }
 .card{
     min-height: 445px;

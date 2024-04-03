@@ -6,6 +6,7 @@
                   optionLabel="label" inputId="tType"
                   [style]="{width:'100%',autoWidth :false}"
                   (onChange)="onTypeChange($event)"
+                  [tabindex]="5"
       >
       </p-dropdown>
       <label for="tType">Тип меню</label>
@@ -18,6 +19,7 @@
                   optionLabel="label" inputId="ttType"
                   [style]="{width:'100%',autoWidth :false}"
                   (onChange)="changeTourType($event)"
+                  [tabindex]="6"
       >
       </p-dropdown>
       <label for="tType">Тип тура</label>
@@ -29,6 +31,7 @@
         [(ngModel)]="selectedTourDate"
         (ngModelChange)="checkDate()"
         [showButtonBar]="true"
+        [tabindex]="7"
       ></p-calendar>
       <label for="tType">Дата</label>
     </span>
