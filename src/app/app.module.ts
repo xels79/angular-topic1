@@ -7,7 +7,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { LOCALE_ID } from '@angular/core';
 import localeRu from '@angular/common/locales/ru';
 import { registerLocaleData } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { RestIterceptorsService } from './services/interceptors/rest-iterceptors.service';
 
 registerLocaleData(localeRu, 'ru');
 
@@ -24,7 +25,8 @@ registerLocaleData(localeRu, 'ru');
 
   ],
   providers: [
-    { provide: LOCALE_ID, useValue: 'ru' }
+    { provide: LOCALE_ID, useValue: 'ru' },
+    { provide: HTTP_INTERCEPTORS, useClass: RestIterceptorsService, multi: true }
   ],
   bootstrap: [AppComponent]
 })

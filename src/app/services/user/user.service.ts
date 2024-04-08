@@ -1,12 +1,17 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { IUser } from 'src/app/models/IUser';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
+export class UserService implements OnInit {
   private user:IUser|null;
+  private token:string;
   constructor() { }
+  ngOnInit(): void {
+    this.user=null;
+    this.token = '';
+  }
   setUser(user:IUser|null, storeUser?:boolean):void{
     this.user = user;
     if (storeUser && user){
@@ -34,6 +39,25 @@ export class UserService {
       return user.username;
     }else{
       return '';
+    }
+  }
+  getToken():string{
+    if (!this.token){
+      const value:string|null = window.localStorage.getItem('ang_schk_u_token');
+      if (value){
+        this.token = value;
+      }else{
+        this.token = '';
+      }
+    }
+    return this.token;
+  }
+  setToken(value:string, storeToken?:boolean): void{
+    this.token = value;
+    if (this.token && storeToken){
+      window.localStorage.setItem('ang_schk_u_token', this.token);
+    }else if (!this.token){
+      window.localStorage.removeItem('ang_schk_u_token');
     }
   }
 }

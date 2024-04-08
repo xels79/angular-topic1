@@ -22,16 +22,17 @@ export class AuthService {
     }
   }
 
-  private proccedAuth(_user:IUser, storeUser?:boolean){
+  private proccedAuth(_user:IUser, token:string, storeUser?:boolean){
     this.errors = [];
     this.userService.setUser(_user, storeUser);
+    this.userService.setToken( token, storeUser);
   }
   login(uname:string,pswd:string, storeUser?:boolean):boolean{
     const userExist:IUser|undefined = this.usersStorage.find(user=>user.username === uname);
     this.logout();
     if (userExist){
       if (userExist.pswd === pswd){
-        this.proccedAuth(userExist, storeUser);
+        this.proccedAuth(userExist, 'user-private-token', storeUser);
         return true;
       }else{
         this.errors.push({fieldName:'username', message:'Неверное имя пользователя или пароль.'});
@@ -44,6 +45,7 @@ export class AuthService {
   }
   logout(){
     this.userService.setUser(null);
+    this.userService.setToken('', true);
   }
   signup(uname:string,pswd:string,email:string, cardNumber?:string, storeUser?:boolean):boolean{
     const userExist:IUser|undefined = this.usersStorage.find(user=>user.username === uname);
@@ -69,7 +71,7 @@ export class AuthService {
       const _uStoreg = this.usersStorage;
       _uStoreg.push(user);
       this.usersStorage = _uStoreg;
-      this.proccedAuth(user, storeUser);
+      this.proccedAuth(user, 'user-private-token', storeUser);
       return true;
     }else{
       this.errors.push({fieldName:'username', message:'Имя пользователя уже существует.'});
