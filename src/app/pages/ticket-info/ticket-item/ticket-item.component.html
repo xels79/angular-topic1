@@ -5,16 +5,60 @@
       <li class="breadcrumb-item active" aria-current="page" *ngIf="ticket">{{ticket.name}}</li>
     </ol>
   </nav>
-  <div class="ticket__content" *ngIf="ticket">
-    <div class="card bg-dark text-white">
-      <img src="/assets/img/{{ticket.img}}" class="card-img" alt="...">
-      <div class="card-img-overlay">
-        <h5 class="card-title">{{ticket.name}}</h5>
-        <p class="card-text fw-bold">{{ticket.description}}</p>
+  <div class="ticket__info">
+    <div class="ticket__content" *ngIf="ticket">
+      <div class="card bg-dark text-white">
+        <img src="/assets/img/{{ticket.img}}" class="card-img" alt="...">
+        <div class="card-img-overlay">
+          <h5 class="card-title">{{ticket.name}}</h5>
+          <p class="card-text fw-bold">{{ticket.description}}</p>
+        </div>
       </div>
     </div>
+    <div class="ticket__notfound" *ngIf="!ticket">
+      <div class="text-danger"><i class="pi pi-question-circle" style="font-size: 2.5rem"></i><div>Тур не найден!</div></div>
+    </div>
   </div>
-  <div class="ticket__notfound" *ngIf="!ticket">
-    <div class="text-danger"><i class="pi pi-question-circle" style="font-size: 2.5rem"></i><div>Тур не найден!</div></div>
+  <div class="ticket__form" [formGroup]="userForm">
+    <div class="row">
+      <div class="col">
+        <div class="input-group has-validation">
+          <input
+            formControlName="firstName"
+            type="text"
+            class="form-control"
+            [class]="{
+              'is-invalid':firstName.invalid && firstName.touched,
+              'is-valid':firstName.valid && firstName.touched
+            }"
+            placeholder="Имя"
+            aria-label="First name"
+          >
+          <div *ngIf="firstName.invalid && firstName.touched" class="invalid-feedback">Поле должно быть заполнено</div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="input-group has-validation">
+          <input formControlName="lastName" type="text" class="form-control" placeholder="Фамилия" aria-label="Last name" [class]="{
+              'is-invalid':lastName.invalid && lastName.touched,
+              'is-valid':lastName.valid && lastName.touched
+          }">
+          <div *ngIf="lastName.errors?.['required']" class="invalid-feedback">Поле должно быть заполнено</div>
+          <div *ngIf="lastName.errors?.['minlength']" class="invalid-feedback">Поле должно быть не менее 2-х символов</div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+          <p-inputNumber
+            formControlName="age"
+            (inputStyleClass)="{
+              'form-control':true
+            }"
+            styleClass="input-group has-validation"
+            (useGrouping)="false"
+          ></p-inputNumber>
+      </div>
+    </div>
   </div>
 </div>

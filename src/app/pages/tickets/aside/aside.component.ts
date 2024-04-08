@@ -1,4 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { MessageService } from 'primeng/api';
 import { IMenuType } from 'src/app/models/IMenuType ';
 import { ITourTypeSelect } from 'src/app/models/ITourTypeSelect';
 import { TicketService } from 'src/app/services/ticket/ticket.service';
@@ -20,7 +21,10 @@ export class AsideComponent implements OnInit {
     {label: 'Групповой', value: 'multi'}
   ]
   @Output() changeMenuType = new EventEmitter<IMenuType>();
-  constructor(private ticketService:TicketService) { }
+  constructor(
+    private ticketService:TicketService,
+    private messageService: MessageService
+  ) { }
 
   ngOnInit(): void {
     this.menuTypes = [
@@ -50,6 +54,14 @@ export class AsideComponent implements OnInit {
         this.ticketService.updateTour(this.selectedTourType);
       }
     }
+  }
+  initRestError(): void {
+    this.ticketService.getError().subscribe({
+      next:(data) => {},
+      error:(err)=> {
+        this.messageService.add({severity:"error",summary:`${err.status} - ошибка сервера`, detail:err.statusText});
+      }
+    });
   }
 
 }

@@ -1,8 +1,5 @@
-import { Observable, Subject } from 'rxjs';
 import { Injectable } from '@angular/core';
 import ITour from 'src/app/models/ITour';
-import { TicketRestService } from '../rest/ticket-rest.service';
-import { ITourTypeSelect } from 'src/app/models/ITourTypeSelect';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +7,7 @@ import { ITourTypeSelect } from 'src/app/models/ITourTypeSelect';
 export class TiсketsStorageService {
   private storage:ITour[]|undefined;
 
-  constructor(private ticketRestService:TicketRestService) { }
+  constructor() { }
 
   setStorage(data: ITour[]): void {
     this.storage = data;

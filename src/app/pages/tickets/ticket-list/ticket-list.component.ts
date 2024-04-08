@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { Observable, Subject, Subscription } from 'rxjs';
 import ITour from 'src/app/models/ITour';
 import { ITourTypeSelect } from 'src/app/models/ITourTypeSelect';
-import { TicketRestService } from 'src/app/services/rest/ticket-rest.service';
 import { TicketService } from 'src/app/services/ticket/ticket.service';
 import { TiсketsStorageService } from 'src/app/services/tiсkets-storage/tiсkets-storage.service';
 import {formatDate} from '@angular/common'
@@ -25,7 +24,6 @@ export class TicketListComponent implements OnInit, OnDestroy{
 
   constructor(
     private ticketsStorage:TiсketsStorageService,
-    private ticketRest:TicketRestService,
     private router: Router,
     private ticketService:TicketService
   ) { }
@@ -37,7 +35,7 @@ export class TicketListComponent implements OnInit, OnDestroy{
     this.searchString = this.ticketService.doSearchString;
     if (!this.tickets.length){
       this.showLoading = true;
-      this.ticketRest.getTickets().subscribe(
+      this.ticketService.getTickets().subscribe(
         (data)=>{
           this.ticketsStorage.setStorage(data);
           this.tickets = data;
