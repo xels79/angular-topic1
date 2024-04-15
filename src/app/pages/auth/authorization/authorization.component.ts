@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { ConfigService } from 'src/app/services/config-service/config-service.service';
 
 @Component({
   selector: 'app-authorization',
@@ -18,6 +19,7 @@ export class AuthorizationComponent implements OnInit {
   userHasEnter:boolean;
   pswdHasEnter:boolean;
   storeUser:boolean;
+  useUserCard:boolean;
   constructor(
     private authService:AuthService,
     private messageService: MessageService,
@@ -27,6 +29,7 @@ export class AuthorizationComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.useUserCard = ConfigService.config.useUserCard;
     this.checkedVIP=false;
     this.bootonPrompt = 'Войти'
   }

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { IErrorMessage } from 'src/app/models/IErrorMessage';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { ConfigService } from 'src/app/services/config-service/config-service.service';
 
 interface IVisited{
   username?:boolean,
@@ -27,6 +28,7 @@ export class RegistrationComponent implements OnInit {
   storeUser:boolean;
   private errors:IErrorMessage[] = [];
   visited:IVisited={};
+  useUserCard:boolean;
 
   constructor(
     private messageService: MessageService,
@@ -37,6 +39,7 @@ export class RegistrationComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.useUserCard = ConfigService.config.useUserCard;
   }
 
   onSignUp(e:Event){

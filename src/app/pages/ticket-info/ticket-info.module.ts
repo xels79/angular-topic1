@@ -20,7 +20,7 @@ import { CalendarModule } from 'primeng/calendar';
     ReactiveFormsModule,
     InputTextModule,
     InputNumberModule,
-    CalendarModule
+    CalendarModule,
   ]
 })
 export class TicketInfoModule { }

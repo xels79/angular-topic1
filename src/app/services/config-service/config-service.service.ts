@@ -22,14 +22,18 @@ export class ConfigService {
   }
   loadPromise() {
     const jsonFile = `assets/config/config.json`;
-    const configPromise =  new Promise<void>((resolve, reject) => {
+    const configPromise =  new Promise<IConfig>((resolve, reject) => {
       this.http.get(jsonFile).toPromise().then((response: any ) => {
         if (response && typeof(response) === 'object') {
           ConfigService.config = response;
           const config = ConfigService.config;
           if (config) {
             // set origin host
-            resolve();
+            if (config.testRunApp){
+              resolve(config);
+            }else{
+              reject('Запуск приложения запрещен. config: '+JSON.stringify(config));
+            }
           } else {
             reject('Ошибка при инициализации конфига - неверный формат '+config);
           }

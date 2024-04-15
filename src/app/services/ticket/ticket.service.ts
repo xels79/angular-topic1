@@ -2,7 +2,7 @@ import { Injectable, OnInit } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { ITourTypeSelect } from 'src/app/models/ITourTypeSelect';
 import { TicketRestService } from '../rest/ticket-rest.service';
-import ITour from 'src/app/models/ITour';
+import ITour, { INearestTour, ITourLocation } from 'src/app/models/ITour';
 
 @Injectable({
   providedIn: 'root'
@@ -30,5 +30,11 @@ export class TicketService implements OnInit{
   }
   getError(): Observable<any>{
     return this.ticketRest.getRestError();
+  }
+  getNearestTours(): Observable<INearestTour[]> {
+    return this.ticketRest.getNearestTickets();
+  }
+  getToursLocation(): Observable<ITourLocation[]> {
+    return this.ticketRest.getLocationList();
   }
 }

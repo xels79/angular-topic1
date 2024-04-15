@@ -1,61 +1,61 @@
 <form #it="ngForm" (ngSubmit)="onLogin()" novalidate>
 <div class="d-flex flex-column auth__form">
-       <p class="fs-2 align-self-center">Авторизация</p>
-       <div class="input-group">
-              <span class="input-group-text form__label">Имя пользователя</span>
-              <input type="text" class="form-control"
-                     type="text"
-                     pInputText
-                     (focusout)="onUHasEnter()"
-                     [(ngModel)]="logIn"
-                     [class]="{'is-invalid':userHasEnter && !logIn}"
-                     name="username"
-                     />
-                     
-       </div>
-       <div class="input-group mt-3">
-              <span class="input-group-text form__label">Пароль</span>
-              <input type="text" class="form-control"
-                     type="password" 
-                     pInputText
-                     [(ngModel)]="pswd"
-                     (focusout)="onPswdEnter()"
-                     [class]="{'is-invalid':pswdHasEnter && !pswd}"
-                     name="password"
-                     autocomplete="off"
-                     />
-       </div>
-       <div class="mt-3">              
-              <p-checkbox
-                     [(ngModel)]="checkedVIP"
-                     [binary]="true"
-                     inputId="binary"
-                     label="Есть карточка постоянного покупателя"
-                     name="checkedVIP"
-              >
-              </p-checkbox>
-       </div>
-       <div *ngIf="checkedVIP"  class="input-group mt-3">
-              <span class="input-group-text form__label">Карта</span>
-              <input class="form-control"
-                     type="text" 
-                     pInputText
-                     [(ngModel)]="vipCardNumber"
-                     placeholder="Укажите номер карты"
-                     name="vipCardNumber"
-              />
-       </div>
-       <div class="mt-3">              
-              <p-checkbox
-                     [(ngModel)]="storeUser"
-                     [binary]="true"
-                     label="Запомнить меня"
-                     name="storeUser"
-              >
-              </p-checkbox>
-       </div>
-       <div class="mt-3 d-flex align-self-center">
-              <button [disabled]="!logIn || !pswd" type="submit" class="btn btn-success">Войти</button>
-       </div>
+      <p class="fs-2 align-self-center">Авторизация</p>
+      <div class="input-group">
+            <span class="input-group-text form__label">Имя пользователя</span>
+            <input type="text" class="form-control"
+                    type="text"
+                    pInputText
+                    (focusout)="onUHasEnter()"
+                    [(ngModel)]="logIn"
+                    [class]="{'is-invalid':userHasEnter && !logIn}"
+                    name="username"
+                    />
+
+      </div>
+      <div class="input-group mt-3">
+            <span class="input-group-text form__label">Пароль</span>
+            <input type="text" class="form-control"
+                    type="password"
+                    pInputText
+                    [(ngModel)]="pswd"
+                    (focusout)="onPswdEnter()"
+                    [class]="{'is-invalid':pswdHasEnter && !pswd}"
+                    name="password"
+                    autocomplete="off"
+                    />
+      </div>
+      <div *ngIf="useUserCard" class="mt-3">
+            <p-checkbox
+                    [(ngModel)]="checkedVIP"
+                    [binary]="true"
+                    inputId="binary"
+                    label="Есть карточка постоянного покупателя"
+                    name="checkedVIP"
+            >
+            </p-checkbox>
+      </div>
+      <div *ngIf="useUserCard && checkedVIP"  class="input-group mt-3">
+            <span class="input-group-text form__label">Карта</span>
+            <input class="form-control"
+                  type="text"
+                  pInputText
+                  [(ngModel)]="vipCardNumber"
+                  placeholder="Укажите номер карты"
+                  name="vipCardNumber"
+            />
+      </div>
+      <div class="mt-3">
+            <p-checkbox
+                    [(ngModel)]="storeUser"
+                    [binary]="true"
+                    label="Запомнить меня"
+                    name="storeUser"
+            >
+            </p-checkbox>
+      </div>
+      <div class="mt-3 d-flex align-self-center">
+            <button [disabled]="!logIn || !pswd" type="submit" class="btn btn-success">Войти</button>
+      </div>
 </div>
 </form>

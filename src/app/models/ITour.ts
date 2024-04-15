@@ -16,3 +16,12 @@ export default interface ITour{
     img: string,
     type: string|undefined
 }
+
+export interface INearestTour extends ITour{
+  locationId: string
+}
+
+export interface ITourLocation {
+  name: string,
+  id: string
+}
