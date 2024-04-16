@@ -44,6 +44,7 @@ export class TicketItemComponent implements OnInit {
       console.log(data);
       this.locations = data[1].filter(el=>this.ticket?.name && this.ticket.name.indexOf(el.name)>-1);
       //this.nearestTours = data[0].filter(el=>el.locationId === this.locations.map(it=>it.id).)
+      this.nearestTours = data[0]
     })
   }
 

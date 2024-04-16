@@ -8,6 +8,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { CalendarModule } from 'primeng/calendar';
+import {CarouselModule} from 'primeng/carousel';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { CalendarModule } from 'primeng/calendar';
     InputTextModule,
     InputNumberModule,
     CalendarModule,
+    CarouselModule
   ]
 })
 export class TicketInfoModule { }
