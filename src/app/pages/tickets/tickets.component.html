@@ -7,7 +7,7 @@
             <router-outlet></router-outlet>
         </div>
         <div>
-            <app-aside (changeMenuType)="updateSelectedType($event)"></app-aside>
+            <app-aside *ngIf="showAsaid" (changeMenuType)="updateSelectedType($event)"></app-aside>
         </div>
     </div>
     <footer>

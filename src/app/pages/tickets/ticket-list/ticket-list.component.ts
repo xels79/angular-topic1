@@ -1,6 +1,6 @@
-import { Component, OnInit, OnDestroy,AfterViewInit, AfterViewChecked, AfterContentInit } from '@angular/core';
+import { Component, OnInit, OnDestroy,AfterViewInit, AfterViewChecked, AfterContentInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, Subject, Subscription } from 'rxjs';
+import { Observable, Subject, Subscription, debounceTime, filter, fromEvent, map } from 'rxjs';
 import ITour from 'src/app/models/ITour';
 import { ITourTypeSelect } from 'src/app/models/ITourTypeSelect';
 import { TicketService } from 'src/app/services/ticket/ticket.service';
@@ -12,12 +12,14 @@ import {formatDate} from '@angular/common'
   templateUrl: './ticket-list.component.html',
   styleUrls: ['./ticket-list.component.scss']
 })
-export class TicketListComponent implements OnInit, OnDestroy{
+export class TicketListComponent implements OnInit, OnDestroy, AfterViewInit{
 
   tickets: ITour[]=[];
   searchString:string;
   showLoading:boolean;
   updater:Observable<{action:string,value:string | number | undefined}>
+  @ViewChild('searchElement') ticketSearch: ElementRef;
+  private searchSubscription: Subscription;
   private tourUnsubscriber: Subscription;
   private childUpdater: Subject<{action:string,value:string | number | undefined}>;
   private tourSelectedType:ITourTypeSelect | undefined;
@@ -49,6 +51,25 @@ export class TicketListComponent implements OnInit, OnDestroy{
   }
   ngOnDestroy(): void {
     this.tourUnsubscriber.unsubscribe();
+    this.searchSubscription.unsubscribe();
+  }
+  ngAfterViewInit(): void {
+    const fromEventObservable = fromEvent<KeyboardEvent>(this.ticketSearch.nativeElement, 'keyup');
+    let needReset=false;
+    this.searchSubscription = fromEventObservable.pipe(
+      debounceTime( 300 ),
+      map(ev=>(ev.target as HTMLInputElement).value.toLowerCase()),
+      filter(val=>(!!val && val.length>2) || needReset)
+    ).subscribe(val=>{
+      if ((!val || val.length<3) && needReset){
+        needReset = false;
+        this.ticketService.doSearchString = '';
+      }else{
+        needReset = true;
+        this.ticketService.doSearchString = val;
+      }
+      this.ticketService.updateTour(this.tourSelectedType);
+    })
   }
   private doFiltering(data:ITourTypeSelect | undefined):void{
     console.log('data', data);
@@ -78,17 +99,6 @@ export class TicketListComponent implements OnInit, OnDestroy{
       return formatDate(date,"YYYY-MM-dd","ru");
     }else{
       return "";
-    }
-  }
-  searchPress(event:KeyboardEvent){
-    if (this.searchString?.length>3){
-      if (this.ticketService.doSearchString !== this.searchString){
-        this.ticketService.doSearchString = this.searchString;
-        this.ticketService.updateTour(this.tourSelectedType);
-      }
-    }else if(this.ticketService.doSearchString){
-      this.ticketService.doSearchString = '';
-      this.ticketService.updateTour(this.tourSelectedType);
     }
   }
   searchClear(event:MouseEvent){

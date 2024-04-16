@@ -1,8 +1,9 @@
 <div class="input-group input-group-sm mb-3">
     <span class="input-group-text" id="inputGroup-sizing-sm">Поиск по названию:</span>
     <input
+      #searchElement
       [(ngModel)]="searchString"
-      (keyup)="searchPress($event)"
+
       type="text"
       class="form-control"
       aria-label="search by name"
