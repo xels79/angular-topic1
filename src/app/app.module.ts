@@ -10,6 +10,8 @@ import { registerLocaleData } from '@angular/common';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { RestIterceptorsService } from './services/interceptors/rest-iterceptors.service';
 import { ConfigService } from './services/config-service/config-service.service';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
 registerLocaleData(localeRu, 'ru');
 
@@ -22,8 +24,8 @@ registerLocaleData(localeRu, 'ru');
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    HttpClientModule
-
+    HttpClientModule,
+    ToastModule
   ],
   providers: [
     ConfigService,
@@ -33,7 +35,8 @@ registerLocaleData(localeRu, 'ru');
       deps: [ConfigService], multi: true
     },
     { provide: LOCALE_ID, useValue: 'ru' },
-    { provide: HTTP_INTERCEPTORS, useClass: RestIterceptorsService, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: RestIterceptorsService, multi: true },
+    MessageService
   ],
   bootstrap: [AppComponent]
 })

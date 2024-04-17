@@ -97,4 +97,12 @@ export class AuthService {
   get isAuthorized():boolean{
     return this.userService.getUser()!==null;
   }
+  updateUser(nUser: IUser):void{
+    const uStorage = this.usersStorage;
+    const uStorageIndex = uStorage.findIndex( item => item.username === nUser.username);
+    if (uStorageIndex>-1){
+      uStorage[uStorageIndex] = nUser;
+      this.usersStorage = uStorage;
+    }
+  }
 }

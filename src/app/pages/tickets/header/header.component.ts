@@ -13,7 +13,6 @@ import { PrimeNGConfig } from 'primeng/api';
 export class HeaderComponent implements OnInit, OnDestroy {
   items: MenuItem[];
   currentDate:Date;
-  settingsActive:boolean;
   @Input() menuType:IMenuType;
   private dateTimerID:number;
   constructor(
@@ -27,7 +26,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
       clear:'Очистить',
       today:'Сегодня'
     });
-    this.settingsActive = false;
     this.items = this.createMenuItems();
     this.dateTimerID = window.setInterval(()=>{
       this.currentDate = new Date();
@@ -39,7 +37,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
   }
   ngOnChanges(ev: SimpleChanges):void{
-    this.settingsActive = this.menuType?.type==='extended';
     this.items = this.createMenuItems();
   }
 
@@ -55,7 +52,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         label:"Настройки",
         icon: 'pi pi-fw pi-cog',
         routerLink:['/tickets/settings'],
-        visible: this.settingsActive
+        visible: this.menuType?.type==='extended'
       },
       {
           label: 'Выйти',

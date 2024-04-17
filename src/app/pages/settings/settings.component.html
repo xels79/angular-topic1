@@ -1,9 +1,23 @@
 <div class="setting">
+  <p class="mt-4 h3">Настройки</p>
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a routerLink="/tickets/list">Назад</a></li>
       <li class="breadcrumb-item active" aria-current="page">Настройки</li>
     </ol>
   </nav>
-  <p>settings works!</p>
+  <div>
+    <p-tabView>
+      <p-tabPanel [cache]="isTabCaching" header="Основные">
+        <ng-template pTemplate="content">
+          <p>Здесь должни быть настройки</p>
+        </ng-template>
+      </p-tabPanel>
+      <p-tabPanel [cache]="isTabCaching" header="Смена пароля">
+        <ng-template  pTemplate="content">
+          <app-change-password></app-change-password>
+        </ng-template>
+      </p-tabPanel>
+    </p-tabView>
+  </div>
 </div>

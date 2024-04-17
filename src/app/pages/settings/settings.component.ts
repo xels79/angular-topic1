@@ -11,6 +11,7 @@ import { SettingsService } from 'src/app/services/settings/settings.service';
 export class SettingsComponent implements OnInit, OnDestroy {
   // private subjectScope:Subject<string>;
   // private subjectUnsubscribe:Subscription;
+  isTabCaching:false;
   private unSubscribeDetector = new Subject<void>();
   private settingSubscription: Subscription;
   constructor(
