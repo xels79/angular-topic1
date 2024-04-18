@@ -41,7 +41,7 @@ export class TicketsComponent implements OnInit, OnDestroy {
     this.destr.complete();
   }
   private reqursiveFindAsaidData(curentSnapshot:ActivatedRouteSnapshot, searchProp:string): boolean {
-    console.log('rFAD', curentSnapshot);
+    // console.log('rFAD', curentSnapshot);
     if (curentSnapshot.data[searchProp]){
       return true;
     }else{

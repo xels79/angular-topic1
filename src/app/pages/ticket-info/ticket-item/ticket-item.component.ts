@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import ITour, { INearestTour, ITourLocation } from 'src/app/models/ITour';
+import ITour, { INearestTour, INearestTourExtend, ITourLocation } from 'src/app/models/ITour';
 import { TiсketsStorageService } from 'src/app/services/tiсkets-storage/tiсkets-storage.service';
-import { forkJoin } from 'rxjs';
+import { forkJoin, map } from 'rxjs';
 import { TicketService } from 'src/app/services/ticket/ticket.service';
 
 @Component({
@@ -14,8 +14,8 @@ import { TicketService } from 'src/app/services/ticket/ticket.service';
 export class TicketItemComponent implements OnInit {
   ticket:ITour | undefined;
   userForm: FormGroup;
-  locations: ITourLocation[];
-  nearestTours: INearestTour[];
+  //locations: INearestTourExtend[];
+  nearestTours: INearestTourExtend[];
   constructor(
     private router: ActivatedRoute,
     private ticketStorage:TiсketsStorageService,
@@ -40,11 +40,17 @@ export class TicketItemComponent implements OnInit {
     console.log(id,this.ticket);
 
     //Ближайшие туры
-    forkJoin([this.ticketService.getNearestTours(), this.ticketService.getToursLocation()]).subscribe(data=>{
+    forkJoin([this.ticketService.getNearestTours(), this.ticketService.getToursLocation()]).pipe(
+      map(data=>
+          data[0].map(tourItem=>{
+            const tnExtends:INearestTourExtend = tourItem;
+            tnExtends.country = data[1].find( locationItem=>tourItem.locationId === locationItem.id);
+            return tnExtends;
+          })
+      )
+    ).subscribe(data=>{
       console.log(data);
-      this.locations = data[1].filter(el=>this.ticket?.name && this.ticket.name.indexOf(el.name)>-1);
-      //this.nearestTours = data[0].filter(el=>el.locationId === this.locations.map(it=>it.id).)
-      this.nearestTours = data[0]
+      this.nearestTours = data;
     })
   }
 

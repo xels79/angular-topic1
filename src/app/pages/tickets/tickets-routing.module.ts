@@ -17,6 +17,10 @@ const routes: Routes = [
           path:'settings',
           loadChildren:()=>import('../settings/settings.module').then(m=>m.SettingsModule),
           data:{hideAsaid:true}
+        },
+        {
+          path:'orders',
+          loadChildren:()=>import('../orders/orders.module').then(m=>m.OrdersModule)
         }
     ]
   }

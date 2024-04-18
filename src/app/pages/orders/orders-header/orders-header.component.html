@@ -1,0 +1,13 @@
+<div class="orders__header">
+  <div class="row">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink="/tickets/list">Назад</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Заказы</li>
+      </ol>
+    </nav>
+  </div>
+  <div class="row">
+    <p-checkbox (onChange)="groupOrder($event)" [binary]="true" [label]="'Групировать заказы'"></p-checkbox>
+  </div>
+</div>

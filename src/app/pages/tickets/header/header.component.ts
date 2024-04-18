@@ -49,6 +49,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
           routerLinkActiveOptions:["p-highlight"]
       },
       {
+        label: 'Заказы',
+        icon: 'pi pi-fw pi-shopping-bag',
+        routerLink:['/tickets/orders'],
+        routerLinkActiveOptions:["p-highlight"]
+      },
+      {
         label:"Настройки",
         icon: 'pi pi-fw pi-cog',
         routerLink:['/tickets/settings'],
