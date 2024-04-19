@@ -8,7 +8,7 @@ export const ORDERMOCKS: OrderType[] = [
   {
       "id": "1",
       "name": "Mexico",
-      "description": "From the south to the center of the country",
+      "description": "From the south to the center of the country.",
       "tourOperator": "LocalAdventures",
       "price": "€2,192",
       "img": "ocean.jpg",
@@ -104,7 +104,7 @@ export const ORDERMOCKS: OrderType[] = [
   {
       "id": "10",
       "name": "Mexico",
-      "description": "From the south to the center of the country",
+      "description": "From the south to the center of the country!",
       "tourOperator": "LocalAdventures",
       "price": "€2,192",
       "img": "ocean.jpg"
@@ -193,7 +193,7 @@ export const ORDERMOCKS: OrderType[] = [
   {
       "id": "21",
       "name": "Mexico",
-      "description": "From the south to the center of the country",
+      "description": "From the south to the center of the country!!",
       "tourOperator": "LocalAdventures",
       "price": "€2,192",
       "img": "ocean.jpg"
@@ -289,7 +289,7 @@ export const ORDERMOCKS: OrderType[] = [
       "birthDate": "2022-11-21T21:00:00.000Z",
       "age": 34,
       "citizenship": "sis",
-      "description": "From the south to the center of the country",
+      "description": "From the south to the center of the country!!!",
       "tourOperator": "LocalAdventures",
       "price": "€2,192",
       "img": "ocean.jpg",
@@ -306,7 +306,7 @@ export const ORDERMOCKS: OrderType[] = [
       "birthDate": null,
       "age": null,
       "citizenship": null,
-      "description": "From the south to the center of the country",
+      "description": "From the south to the center of the country?!!!",
       "tourOperator": "LocalAdventures",
       "price": "€2,192",
       "img": "ocean.jpg",
@@ -323,7 +323,7 @@ export const ORDERMOCKS: OrderType[] = [
       "birthDate": null,
       "age": null,
       "citizenship": null,
-      "description": "From the south to the center of the country",
+      "description": "From the south to the center of the country?!",
       "tourOperator": "LocalAdventures",
       "price": "€2,192",
       "img": "ocean.jpg",

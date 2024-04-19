@@ -20,6 +20,7 @@ export class AuthorizationComponent implements OnInit {
   pswdHasEnter:boolean;
   storeUser:boolean;
   useUserCard:boolean;
+  errorText:string;
   constructor(
     private authService:AuthService,
     private messageService: MessageService,
@@ -32,6 +33,7 @@ export class AuthorizationComponent implements OnInit {
     this.useUserCard = ConfigService.config.useUserCard;
     this.checkedVIP=false;
     this.bootonPrompt = 'Войти'
+    this.errorText = '';
   }
   onUHasEnter(){
     this.userHasEnter = true;
@@ -39,9 +41,13 @@ export class AuthorizationComponent implements OnInit {
   onPswdEnter(){
     this.pswdHasEnter = true;
   }
+  cChange():void{
+    this.errorText = "";
+  }
   onLogin(){
     if (!this.authService.login(this.logIn,this.pswd, this.storeUser)){
-      this.messageService.add({severity:"error",summary:"Ошибка входа", detail:this.authService.getLastErrorText()});
+      this.errorText = this.authService.getLastErrorText();
+      this.messageService.add({severity:"error",summary:"Ошибка входа", detail:this.errorText});
     }else{
       this.router.navigate(['tickets/list']);
     }
