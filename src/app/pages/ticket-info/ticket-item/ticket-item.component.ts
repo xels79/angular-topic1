@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import ITour, { INearestTour, INearestTourExtend, ITourLocation } from 'src/app/models/ITour';
 import { TiсketsStorageService } from 'src/app/services/tiсkets-storage/tiсkets-storage.service';
-import { forkJoin, map } from 'rxjs';
+import { Subscription, forkJoin, fromEvent, map } from 'rxjs';
 import { TicketService } from 'src/app/services/ticket/ticket.service';
 
 @Component({
@@ -11,11 +11,15 @@ import { TicketService } from 'src/app/services/ticket/ticket.service';
   templateUrl: './ticket-item.component.html',
   styleUrls: ['./ticket-item.component.scss']
 })
-export class TicketItemComponent implements OnInit {
+export class TicketItemComponent implements OnInit, AfterViewInit, OnDestroy {
   ticket:ITour | undefined;
   userForm: FormGroup;
   //locations: INearestTourExtend[];
   nearestTours: INearestTourExtend[];
+  @ViewChild('ntSearchElement') ntSearchElement: ElementRef;
+  private NTSESubscribtion: Subscription;
+  private ticketRestSub: Subscription;
+
   constructor(
     private router: ActivatedRoute,
     private ticketStorage:TiсketsStorageService,
@@ -52,6 +56,34 @@ export class TicketItemComponent implements OnInit {
       console.log(data);
       this.nearestTours = data;
     })
+  }
+
+  ngAfterViewInit(): void {
+    this.NTSESubscribtion = fromEvent(this.ntSearchElement.nativeElement, 'keyup').subscribe((ev)=>{
+      console.log('ku');
+      this.initSearchTour();
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.NTSESubscribtion.unsubscribe();
+  }
+
+  initSearchTour(){
+    const type = Math.floor( Math.random() * 3);
+    if (this.ticketRestSub && !this.ticketRestSub.closed) {
+      this.ticketRestSub.unsubscribe();
+    }
+    this.ticketRestSub = forkJoin([this.ticketService.getRandomNearestTours( type ), this.ticketService.getToursLocation()]).pipe(
+      map( data=>{
+        const tnExtends:INearestTourExtend = data[0];
+        tnExtends.country = data[1].find( locationItem=>data[0].locationId === locationItem.id);
+        return tnExtends;
+      })
+    ).subscribe( data=>{
+      console.log(data);
+      this.nearestTours = [ data ];
+    });
   }
 
   get firstName():FormControl{

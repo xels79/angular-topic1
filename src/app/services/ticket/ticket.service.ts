@@ -37,4 +37,7 @@ export class TicketService implements OnInit{
   getToursLocation(): Observable<ITourLocation[]> {
     return this.ticketRest.getLocationList();
   }
+  getRandomNearestTours(type: number): Observable<INearestTour> {
+    return this.ticketRest.getRandomNearestTours(type);
+  }
 }

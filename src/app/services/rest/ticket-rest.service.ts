@@ -26,4 +26,20 @@ export class TicketRestService {
     return this.http.get<ITourLocation[]>("https://62b9e756ff109cd1dc9dae16.mockapi.io/apiv/v1/location/");
   }
 
+  getRandomNearestTours(type: number): Observable<INearestTour> {
+    let url = "/assets/mocks/nearestTours2.json";
+    switch (type){
+      case 0:
+        url = "/assets/mocks/nearestTours1.json";
+        break
+      case 1:
+        url = "/assets/mocks/nearestTours2.json";
+        break
+      case 2:
+        url = "/assets/mocks/nearestTours3.json";
+        break
+    }
+    return this.http.get<INearestTour>(url);
+  }
+
 }

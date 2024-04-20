@@ -25,23 +25,14 @@ export class OrdersService {
   }
 
   transformOrderData(data: OrderType[]): TreeNode<OrderType[]> {
-    const treeNodeObj: TreeNode = {
-      children:[],
-      data:{
-        name:"Заказы"
-      },
-      expanded:true
-    };
-
     if (Array.isArray(data)){
-      data.forEach(el=>{
-        treeNodeObj.children?.push({ data:el });
-      });
+      return data.reduce((acc, item)=>{
+        acc.children?.push({data:item});
+        return acc;
+      }, {children:[], data:{name:"Заказы"},expanded:true} as TreeNode);
     } else {
-      return <TreeNode<OrderType[]>>[];
+      return <TreeNode<OrderType[]>>[{data:'Пусто'}];
     }
-    console.log("threeNodes:",treeNodeObj);
-    return treeNodeObj;
   }
 
   groupData(data: OrderType[], prop: OrderPropType): TreeNode<OrderType[]> {
@@ -55,14 +46,16 @@ export class OrdersService {
     if (Array.isArray(data)){
       const rv = data.reduce( (acc, item) => {
         const index = acc.children.findIndex( chld => chld.data.name === item[prop]);
+        const name = item.name;
         if (index>-1){
           acc.children[index].children.push( {data: item} );
         }else{
-          acc.children.push({ data: {name:item[prop]}, children: [ {data:item} ]});
+          acc.children.push({ data: {name:name}, children: [ {data:item} ]});
         }
         return acc;
       }, treeNodeObj);
       console.log('groupData', rv);
+      return rv as TreeNode<OrderType[]>;
     }else{
       treeNodeObj.data = 'Пусто';
     }

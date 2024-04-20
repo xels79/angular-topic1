@@ -100,6 +100,18 @@
   </div>
   <div class="row ">
     <h4 class="card-title">Похожие туры</h4>
+    <div class="input-group input-group-sm mb-3">
+      <span class="input-group-text" id="inputGroup-sizing-sm">Поиск по названию:</span>
+      <input
+        #ntSearchElement
+        type="text"
+        class="form-control"
+        aria-label="search by name"
+        aria-describedby="inputGroup-sizing-sm"
+        tabindex="1"
+      >
+      <button tabindex="2" class="btn btn-outline-secondary" type="button" id="button-clear-search">Очистить</button>
+  </div>
     <p-carousel [value]="nearestTours">
       <ng-template let-tour pTemplate="item">
         <figure class="figure mt-3">
