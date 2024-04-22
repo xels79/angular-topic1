@@ -6,17 +6,23 @@ import { SettingsComponent } from './settings.component';
 import { TabViewModule } from 'primeng/tabview';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { StatisticComponent } from './statistic/statistic.component';
+import { TableModule } from 'primeng/table';
+import { ProgressBarModule } from 'primeng/progressbar';
 
 @NgModule({
   declarations: [
     SettingsComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    StatisticComponent
   ],
   imports: [
     CommonModule,
     SettingsRoutingModule,
     TabViewModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    TableModule,
+    ProgressBarModule
   ]
 })
 export class SettingsModule { }

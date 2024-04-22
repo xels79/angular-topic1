@@ -18,6 +18,11 @@
           <app-change-password></app-change-password>
         </ng-template>
       </p-tabPanel>
+      <p-tabPanel [cache]="isTabCaching" header="Статистика">
+        <ng-template pTemplate="content">
+          <app-statistic></app-statistic>
+        </ng-template>
+      </p-tabPanel>
     </p-tabView>
   </div>
 </div>
