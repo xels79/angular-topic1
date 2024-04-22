@@ -23,8 +23,11 @@ export class TicketService implements OnInit{
 
   updateTour(type:ITourTypeSelect | undefined): void {
     this.ticketSubject.next(type);
-
   }
+  sendOrder(data:any): Observable<any>{
+    return this.ticketRest.sendOrder( data );
+  }
+
   getTickets(): Observable<ITour[]>{
     return this.ticketRest.getTickets();
   }

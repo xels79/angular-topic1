@@ -42,4 +42,8 @@ export class TicketRestService {
     return this.http.get<INearestTour>(url);
   }
 
+  sendOrder(data: any): Observable<any> {
+    
+    return this.http.post('', data);
+  }
 }

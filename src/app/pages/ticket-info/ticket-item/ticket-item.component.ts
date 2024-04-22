@@ -85,7 +85,10 @@ export class TicketItemComponent implements OnInit, AfterViewInit, OnDestroy {
       this.nearestTours = [ data ];
     });
   }
-
+  sendOrderClick():void{
+    const data = this.userForm.getRawValue();
+    this.ticketService.sendOrder( data ).subscribe();
+  }
   get firstName():FormControl{
     return this.userForm.get('firstName') as FormControl;
   }
