@@ -5,6 +5,7 @@ import { MessageService } from 'primeng/api';
 import { IUser } from 'src/app/models/IUser';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { UserService } from 'src/app/services/user/user.service';
+import { passwordConfirmViladator, passwordStrength } from '../validators/password';
 
 @Component({
   selector: 'app-change-password',
@@ -23,17 +24,8 @@ export class ChangePasswordComponent implements OnInit {
   ngOnInit(): void {
     this.uForm = new FormGroup({
       oldPassword: new FormControl('',{ validators:Validators.required }),
-      newPassword: new FormControl('', [ Validators.required, Validators.minLength(8) ]),
-      confirmPassword: new FormControl('', [ Validators.required, (control: AbstractControl): ValidationErrors | null => {
-        if (this.uForm){
-          const nVal = (this.uForm.get('newPassword') as FormControl).value;
-          const isError = control.value !== nVal;
-          console.log("proceed validator", control.value, isError, nVal);
-          return isError ? { passDoesNotMatch: { value: control.value } } : null;
-        }else{
-          return null;
-        }
-      }])
+      newPassword: new FormControl('', [ Validators.required, Validators.minLength(8), passwordStrength() ]),
+      confirmPassword: new FormControl('', [ Validators.required, passwordConfirmViladator('newPassword')])
     });
   }
 
@@ -53,6 +45,7 @@ export class ChangePasswordComponent implements OnInit {
       this.oldPassword.setErrors({
         wrongPassword:{ value: this.oldPassword.value }
       });
+      this.messageService.add({severity:"error", summary:"Ошибка!", detail:"Невернвй пароль."});
     }else{
       const user:IUser | null = this.user.getUser();
       if (user){

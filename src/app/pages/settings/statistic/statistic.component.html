@@ -1,8 +1,8 @@
 <div class="statistic">
-  <div class="loader" style="min-height: 6px;">
-    <p-progressBar *ngIf="showLoading" mode="indeterminate" [style]="{ height: '6px' }"></p-progressBar>
-  </div>
-  <p-table [value]="tableRow" [tableStyle]="{ 'min-width': '50rem' }">
+    <div class="loader" style="min-height: 6px;">
+        <p-progressBar *ngIf="showLoading" mode="indeterminate" [style]="{ height: '6px' }"></p-progressBar>
+    </div>
+    <p-table [value]="tableRow" [tableStyle]="{ 'min-width': '50rem' }">
     <ng-template pTemplate="header">
         <tr>
             <th *ngFor="let col of cols">{{ col.headerText }}</th>
