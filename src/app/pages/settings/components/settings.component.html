@@ -8,9 +8,9 @@
   </nav>
   <div>
     <p-tabView>
-      <p-tabPanel [cache]="isTabCaching" header="Основные">
+      <p-tabPanel [cache]="isTabCaching" header="Пользователи">
         <ng-template pTemplate="content">
-          <p>Здесь должни быть настройки</p>
+          <app-users></app-users>
         </ng-template>
       </p-tabPanel>
       <p-tabPanel [cache]="isTabCaching" header="Смена пароля">

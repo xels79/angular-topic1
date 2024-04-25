@@ -13,7 +13,7 @@ import { PrimeNGConfig } from 'primeng/api';
 export class HeaderComponent implements OnInit, OnDestroy {
   items: MenuItem[];
   currentDate:Date;
-  @Input() menuType:IMenuType;
+  // @Input() menuType:IMenuType;
   private dateTimerID:number;
   constructor(
     public user:UserService,
@@ -58,7 +58,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
         label:"Настройки",
         icon: 'pi pi-fw pi-cog',
         routerLink:['/tickets/settings'],
-        visible: this.menuType?.type==='extended'
       },
       {
           label: 'Выйти',

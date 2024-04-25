@@ -1,19 +1,6 @@
 <div class="a-side">
   <div class="dd-group d-flex flex-column">
     <span class="p-float-label">
-      <p-dropdown [options]="menuTypes"
-                  [(ngModel)]="selectedMenuType"
-                  optionLabel="label" inputId="tType"
-                  [style]="{width:'100%',autoWidth :false}"
-                  (onChange)="onTypeChange($event)"
-                  [tabindex]="5"
-      >
-      </p-dropdown>
-      <label for="tType">Тип меню</label>
-    </span>
-  </div>
-  <div class="dd-group d-flex flex-column">
-    <span class="p-float-label">
       <p-dropdown [options]="tourTypes"
                   [(ngModel)]="selectedTourType"
                   optionLabel="label" inputId="ttType"

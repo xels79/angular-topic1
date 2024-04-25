@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, ActivatedRouteSnapshot, ActivationStart, Router } from '@angular/router';
 import { Subject, filter, map, takeUntil } from 'rxjs';
 import { IMenuType } from 'src/app/models/IMenuType ';
-import { MenuTypeService } from 'src/app/services/menu-type/menu-type.service';
 
 @Component({
   selector: 'app-tickets',
@@ -16,16 +15,11 @@ export class TicketsComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private menuTypeService: MenuTypeService
   ) { }
 
   ngOnInit(): void {
-    //MenuType subscripe
-    this.menuTypeService.getObservable().pipe( takeUntil( this.destr ) ).subscribe( dt => {
-      this.selectedMenuType = dt;
-    });
-
     //Asaid panel
+
     this.showAsaid = !this.reqursiveFindAsaidData(this.route.snapshot,'hideAsaid');
     this.router.events.pipe(
       filter(ev=>ev instanceof ActivationStart),
@@ -41,7 +35,6 @@ export class TicketsComponent implements OnInit, OnDestroy {
     this.destr.complete();
   }
   private reqursiveFindAsaidData(curentSnapshot:ActivatedRouteSnapshot, searchProp:string): boolean {
-    // console.log('rFAD', curentSnapshot);
     if (curentSnapshot.data[searchProp]){
       return true;
     }else{

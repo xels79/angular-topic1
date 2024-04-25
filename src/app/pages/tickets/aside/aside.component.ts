@@ -3,7 +3,6 @@ import { MessageService } from 'primeng/api';
 import { Subscription, take } from 'rxjs';
 import { IMenuType } from 'src/app/models/IMenuType ';
 import { ITourTypeSelect } from 'src/app/models/ITourTypeSelect';
-import { MenuTypeService } from 'src/app/services/menu-type/menu-type.service';
 import { SettingsService } from 'src/app/services/settings/settings.service';
 import { TicketService } from 'src/app/services/ticket/ticket.service';
 
@@ -14,10 +13,10 @@ import { TicketService } from 'src/app/services/ticket/ticket.service';
 })
 export class AsideComponent implements OnInit, OnDestroy {
   menuTypes: IMenuType[];
-  selectedMenuType: IMenuType;
+  // selectedMenuType: IMenuType;
   selectedTourType:ITourTypeSelect;
   selectedTourDate:string;
-  private MTSubscription: Subscription;
+  // private MTSubscription: Subscription;
   private oldSelectedTourDate:string;
   tourTypes: ITourTypeSelect[] = [
     {label: 'Все', value: 'all'},
@@ -28,8 +27,7 @@ export class AsideComponent implements OnInit, OnDestroy {
   constructor(
     private ticketService:TicketService,
     private messageService: MessageService,
-    private settingService: SettingsService,
-    private menuTypeService: MenuTypeService
+    private settingService: SettingsService
   ) { }
 
   ngOnInit(): void {
@@ -37,18 +35,9 @@ export class AsideComponent implements OnInit, OnDestroy {
       {type: 'custom', label : 'Обычное'},
       {type: 'extended', label : 'Расширенное'},
     ];
-    this.MTSubscription = this.menuTypeService.getObservable().subscribe( dt=>{
-      this.selectedMenuType = dt;
-    });
   }
+
   ngOnDestroy(): void {
-    this.MTSubscription.unsubscribe();
-  }
-  onTypeChange(event:any){
-    if (event.value){
-      this.menuTypeService.changeMenuType( event.value as IMenuType );
-      // this.changeMenuType.emit(event.value as IMenuType);
-    }
   }
 
   changeTourType(ev:  {ev: Event, value: ITourTypeSelect}): void {

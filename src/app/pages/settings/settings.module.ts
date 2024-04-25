@@ -2,19 +2,24 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { SettingsRoutingModule } from './settings-routing.module';
-import { SettingsComponent } from './settings.component';
+import { SettingsComponent } from './components/settings.component';
 import { TabViewModule } from 'primeng/tabview';
-import { ReactiveFormsModule } from '@angular/forms';
-import { ChangePasswordComponent } from './change-password/change-password.component';
-import { StatisticComponent } from './statistic/statistic.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import { StatisticComponent } from './components/statistic/statistic.component';
 import { TableModule } from 'primeng/table';
 import { ProgressBarModule } from 'primeng/progressbar';
+import { UsersComponent } from './components/users/users.component';
+import { InputTextModule } from 'primeng/inputtext';
+import { FilterPipe } from './pipes/filter.pipe';
 
 @NgModule({
   declarations: [
     SettingsComponent,
     ChangePasswordComponent,
-    StatisticComponent
+    StatisticComponent,
+    UsersComponent,
+    FilterPipe
   ],
   imports: [
     CommonModule,
@@ -22,7 +27,9 @@ import { ProgressBarModule } from 'primeng/progressbar';
     TabViewModule,
     ReactiveFormsModule,
     TableModule,
-    ProgressBarModule
+    ProgressBarModule,
+    InputTextModule,
+    FormsModule
   ]
 })
 export class SettingsModule { }

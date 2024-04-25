@@ -5,7 +5,7 @@ import { MessageService } from 'primeng/api';
 import { IUser } from 'src/app/models/IUser';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { UserService } from 'src/app/services/user/user.service';
-import { passwordConfirmViladator, passwordStrength } from '../validators/password';
+import { passwordConfirmViladator, passwordStrength } from '../../validators/password';
 
 @Component({
   selector: 'app-change-password',

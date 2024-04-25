@@ -1,0 +1,26 @@
+<div class="users">
+  <div class="mb-3">
+    <input type="text" class="form-control" pInputText [(ngModel)]="searchString" placeholder="Поиск по имени">
+  </div>
+  <div *ngIf="(asyncUser | async); else loading" class="loading__spacer"></div>
+  <p-table [value]="(asyncUser | async) | filterSearch: searchString: 'fio'">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>ФИО</th>
+        <th>Роль</th>
+        <th>Гражданство</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-user>
+      <tr>
+        <td>{{user.fio}}</td>
+        <td>{{user.role}}</td>
+        <td>{{user.citizenship}}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<ng-template #loading>
+  <p-progressBar mode="indeterminate" [style]="{ height: '6px' }"></p-progressBar>
+</ng-template>
