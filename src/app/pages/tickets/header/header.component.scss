@@ -1,0 +1,18 @@
+:host{
+  ::ng-deep .p-menubar .p-menubar-root-list > .p-menuitem >.p-menuitem-link-active{
+    background-color: #D5D5E0;
+    transition: background-color .3s ease-in-out;
+    &:not(.p-disabled){
+      &:hover{
+        background-color: #DADAF0;
+        transition: background-color .3s ease-in-out, color .3s ease-in-out;
+        .p-menuitem-icon{
+          transition: color .3s ease-in-out, color .3s ease-in-out;
+        }
+      }
+      .p-menuitem-icon{
+        transition: color .3s ease-in-out, color .3s ease-in-out;
+      }
+  }
+  }
+}
