@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { IUser } from 'src/app/models/IUser';
 import { UserService } from '../user/user.service';
 import { IErrorMessage } from 'src/app/models/IErrorMessage';
+import { HttpClient } from '@angular/common/http';
 
 
 @Injectable({
@@ -9,7 +10,7 @@ import { IErrorMessage } from 'src/app/models/IErrorMessage';
 })
 export class AuthService {
   private errors:IErrorMessage[] = [];
-  constructor(private userService:UserService) { }
+  constructor(private userService:UserService, private http: HttpClient) { }
   private set usersStorage(val:IUser[]){
     window.localStorage.setItem('ang_schk_users_store', JSON.stringify(val));
   }
@@ -48,6 +49,35 @@ export class AuthService {
     this.userService.setToken('', true);
   }
   signup(uname:string,pswd:string,email:string, cardNumber?:string, storeUser?:boolean):boolean{
+    if (!email){
+      this.errors.push({fieldName:'email', message:'Необходимо указать почту'});
+    }else if (!/^[^.][A-Z0-9._%+-]+@[A-Z0-9-]+\.{1}[A-Z]{2,4}$/i.test(email)){
+      this.errors.push({fieldName:'email', message:'Формат поля "Почта" должен соответствовать email адресу'});
+    }
+    if (pswd.length<8){
+      this.errors.push({fieldName:'pswd', message:'Поле "Пароль" должно содержать не менее 8-ми символов!'});
+    }
+    if (this.errors.length){
+      return false;
+    }else{
+      const user:IUser={
+        username:uname,
+        pswd:pswd,
+        cardNumber:cardNumber,
+        email:email
+      };
+      this.http.post<IUser | string>('http://localhost:3000/users', user).subscribe((data)=>{
+        if ( typeof(data)==='object'){
+
+        }else{
+
+        }
+      });
+    }
+
+  }
+/*
+  signup(uname:string,pswd:string,email:string, cardNumber?:string, storeUser?:boolean):boolean{
     const userExist:IUser|undefined = this.usersStorage.find(user=>user.username === uname);
     this.logout();
     if (!userExist){
@@ -78,6 +108,7 @@ export class AuthService {
       return false;
     }
   }
+*/
   getLastErrorText():string{
     if (this.errors.length){
       const error:IErrorMessage = this.errors.pop() as IErrorMessage;

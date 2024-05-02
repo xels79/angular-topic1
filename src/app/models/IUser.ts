@@ -3,6 +3,7 @@ export interface IUser{
     pswd:string,
     email:string,
     cardNumber?:string
+    id?:string
 }
 
 export interface IStatisticUser{
