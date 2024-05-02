@@ -3,6 +3,7 @@ import { IUser } from 'src/app/models/IUser';
 import { UserService } from '../user/user.service';
 import { IErrorMessage } from 'src/app/models/IErrorMessage';
 import { HttpClient } from '@angular/common/http';
+import { Subject } from 'rxjs';
 
 
 @Injectable({
@@ -10,6 +11,9 @@ import { HttpClient } from '@angular/common/http';
 })
 export class AuthService {
   private errors:IErrorMessage[] = [];
+  errorMsgObserv: Subject<IErrorMessage[]> = new Subject();
+  readonly errorMsgObserv$=this.errorMsgObserv.asObservable();
+
   constructor(private userService:UserService, private http: HttpClient) { }
   private set usersStorage(val:IUser[]){
     window.localStorage.setItem('ang_schk_users_store', JSON.stringify(val));
@@ -48,17 +52,18 @@ export class AuthService {
     this.userService.setUser(null);
     this.userService.setToken('', true);
   }
-  signup(uname:string,pswd:string,email:string, cardNumber?:string, storeUser?:boolean):boolean{
+  signup(uname:string,pswd:string,email:string, cardNumber?:string, storeUser?:boolean){
+    const _errors:IErrorMessage[] = [];
     if (!email){
-      this.errors.push({fieldName:'email', message:'Необходимо указать почту'});
+      _errors.push({fieldName:'email', message:'Необходимо указать почту'});
     }else if (!/^[^.][A-Z0-9._%+-]+@[A-Z0-9-]+\.{1}[A-Z]{2,4}$/i.test(email)){
-      this.errors.push({fieldName:'email', message:'Формат поля "Почта" должен соответствовать email адресу'});
+      _errors.push({fieldName:'email', message:'Формат поля "Почта" должен соответствовать email адресу'});
     }
     if (pswd.length<8){
-      this.errors.push({fieldName:'pswd', message:'Поле "Пароль" должно содержать не менее 8-ми символов!'});
+      _errors.push({fieldName:'password', message:'Поле "Пароль" должно содержать не менее 8-ми символов!'});
     }
-    if (this.errors.length){
-      return false;
+    if (_errors.length){
+      this.errorMsgObserv.next(_errors);
     }else{
       const user:IUser={
         username:uname,
@@ -66,11 +71,11 @@ export class AuthService {
         cardNumber:cardNumber,
         email:email
       };
-      this.http.post<IUser | string>('http://localhost:3000/users', user).subscribe((data)=>{
-        if ( typeof(data)==='object'){
-
-        }else{
-
+      this.http.post<IUser | IErrorMessage[]>('http://localhost:3000/users', user).subscribe((data)=>{
+        if ( Array.isArray(data) ){
+          this.errorMsgObserv.next(data);
+        }else if( data!==null && typeof(data)==='object'){
+          this.proccedAuth(data, 'user-private-token', storeUser);
         }
       });
     }

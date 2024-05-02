@@ -6,9 +6,10 @@ import { AuthorizationComponent } from './authorization/authorization.component'
 import { TabViewModule } from 'primeng/tabview';
 import { AuthComponent } from './auth.component'
 import { InputTextModule} from 'primeng/inputtext';
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { CheckboxModule } from 'primeng/checkbox';
 import { RegistrationComponent } from './registration/registration.component';
+import { ProgressBarModule } from 'primeng/progressbar';
 // import { ToastModule } from 'primeng/toast';
 // import { MessageService } from 'primeng/api';
 
@@ -25,7 +26,9 @@ import { RegistrationComponent } from './registration/registration.component';
     TabViewModule,
     InputTextModule,
     FormsModule,
-    CheckboxModule
+    CheckboxModule,
+    ReactiveFormsModule,
+    ProgressBarModule
   ],
   providers:[]
 })
