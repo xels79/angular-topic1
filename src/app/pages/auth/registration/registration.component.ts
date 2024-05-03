@@ -34,7 +34,8 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   useUserCard:boolean;
   uSRVSubscription: Subscription;
   authErrorSubscription: Subscription;
-  uForm: FormGroup;
+  //uForm: FormGroup;
+  showLoading = false;
 
   constructor(
     private messageService: MessageService,
@@ -48,6 +49,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.useUserCard = ConfigService.config.useUserCard;
     this.authErrorSubscription = this.authService.errorMsgObserv$.subscribe(data=>{
+      this.showLoading = false;
       data.forEach(errorItem=>{
         if (errorItem.fieldName){
           this.messageService.add({severity:'error', summary:`${this.errorTrnslate(errorItem.fieldName)}`, detail:errorItem.message});
@@ -62,9 +64,9 @@ export class RegistrationComponent implements OnInit, OnDestroy {
         this.router.navigate(['tickets/list']);
       }
     });
-    this.uForm = new FormGroup({
-      username: new FormControl('',{validators:Validators.required})
-    });
+    // this.uForm = new FormGroup({
+    //   username: new FormControl('',{validators:Validators.required})
+    // });
   }
 
   ngOnDestroy(): void {
@@ -79,6 +81,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       this.errors.push({fieldName:"pswdRepeat", message:"Пароли не совпадают."});
       this.messageService.add({severity:"error",summary:"Ошибка",detail:"Пароли не савподают."});
     }else{
+      this.showLoading = true;
       this.authService.signup(this.logIn,this.pswd, this.email ,this.cardNumber, this.storeUser)
     }
   }
@@ -90,7 +93,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     const val = [
       {_key:'username', t:'Имя пользователя'},
       {_key:'password', t:'Пароль'},
-      {_key:'pswdRepeat', t:'Павторить пароль'},
+      {_key:'pswdRepeat', t:'Повторить пароль'},
       {_key:'email', t:'Почта'}
     ].find(it=>it._key == key);
     if (val){

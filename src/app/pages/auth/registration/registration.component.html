@@ -1,3 +1,6 @@
+<div class="loader" style="min-height: 6px;">
+  <p-progressBar *ngIf="showLoading" mode="indeterminate" [style]="{ height: '6px' }"></p-progressBar>
+</div>
 <form #it="ngForm" (ngSubmit)="onSignUp($event)" novalidate>
 <div class="d-flex flex-column auth__form register__form">
     <p class="fs-2 align-self-center">Регистрация</p>
@@ -80,7 +83,7 @@
     </div>
 
     <div class="mt-3 d-flex align-self-center">
-        <button [disabled]="!logIn || !pswd" type="submit" class="btn btn-success">Зарегистрироваться</button>
+        <button [disabled]="!logIn || !pswd || showLoading" type="submit" class="btn btn-success">Зарегистрироваться</button>
     </div>
 </div>
 </form>

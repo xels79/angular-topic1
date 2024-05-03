@@ -18,6 +18,7 @@ export class UserService implements OnInit {
   setUser(user:IUser|null, storeUser?:boolean):void{
     this.user = user;
     this.userBehSubject.next(user);
+    console.log('setUser', user, storeUser);
     if (storeUser && user){
       window.localStorage.setItem('ang_schk_user_store', JSON.stringify(user));
     }else{
