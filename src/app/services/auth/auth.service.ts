@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IUser } from 'src/app/models/IUser';
+import { ILSUser, IUser } from 'src/app/models/IUser';
 import { UserService } from '../user/user.service';
 import { IErrorMessage } from 'src/app/models/IErrorMessage';
 import { HttpClient } from '@angular/common/http';
@@ -35,9 +35,9 @@ export class AuthService {
   }
   login(uname:string,pswd:string, storeUser?:boolean){
     this.logout();
-    this.http.post<IUser>(`http://localhost:3000/users/${uname}`, {username:uname, pswd}).subscribe(data=>{
+    this.http.post<ILSUser>(`http://localhost:3000/users/${uname}`, {username:uname, pswd}).subscribe(data=>{
       if( data!==null && typeof(data)==='object'){
-        this.proccedAuth(data, 'user-private-token', storeUser);
+        this.proccedAuth(data.user, data.access_token, storeUser);
       }
     }, response=>{
       if (Array.isArray(response.error)){
@@ -70,9 +70,9 @@ export class AuthService {
         cardNumber:cardNumber,
         email:email
       };
-      this.http.post<IUser>('http://localhost:3000/users', user).subscribe((data)=>{
+      this.http.post<ILSUser>('http://localhost:3000/users', user).subscribe((data)=>{
         if( data!==null && typeof(data)==='object'){
-          this.proccedAuth(data, 'user-private-token', storeUser);
+          this.proccedAuth(data.user, data.access_token, storeUser);
         }
       }, response=>{
         if (Array.isArray(response.error)){

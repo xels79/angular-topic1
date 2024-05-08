@@ -1,10 +1,14 @@
 export interface IUser{
     username:string,
-    pswd:string,
+    pswd?:string,
     email:string,
     cardNumber?:string
     _id?:string,
-    __v?:number
+    __v?:number,
+}
+export interface ILSUser{
+    access_token: string,
+    user: IUser
 }
 
 export interface IStatisticUser{
