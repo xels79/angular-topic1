@@ -1,10 +1,12 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import ITour, { INearestTour, INearestTourExtend, ITourLocation } from 'src/app/models/ITour';
 import { TiсketsStorageService } from 'src/app/services/tiсkets-storage/tiсkets-storage.service';
 import { Subscription, forkJoin, fromEvent, map } from 'rxjs';
 import { TicketService } from 'src/app/services/ticket/ticket.service';
+import { MessageService } from 'primeng/api';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-ticket-item',
@@ -22,15 +24,33 @@ export class TicketItemComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(
     private router: ActivatedRoute,
-    private ticketStorage:TiсketsStorageService,
-    private ticketService:TicketService
+    //private ticketStorage:TiсketsStorageService,
+    private ticketService:TicketService,
+    private messageService: MessageService,
+    private authService: AuthService,
+    private mainRouter: Router
   ) { }
 
   ngOnInit(): void {
     //Параметры маршрутизации (id - тура)
     const id =this.router.snapshot.paramMap.get('id');
     if (id){
-      this.ticket = this.ticketStorage.getStorage().find(item=>item.id === id);
+      //this.ticket = this.ticketStorage.getStorage().find(item=>item.id === id);
+      this.ticketService.getTicket( id ).subscribe({
+        next: data=>{ this.ticket = data },
+        error: err=>{
+          if (err.status===401){
+            this.messageService.add({severity: 'error', summary: 'Ошибка', detail: 'Требуется авторизация.'});
+            this.authService.logout();
+            this.mainRouter.navigate(['/auth']);
+          }else if (err.status === 404) {
+            this.messageService.add({severity: 'error', summary: 'Ошибка', detail: 'Тур ненайден.'});
+            this.mainRouter.navigate(['/tickets/notfound']);
+          }else{
+            console.log("Ошибка.");
+          }
+        }
+      });
     }
     //Форма
     this.userForm = new FormGroup({

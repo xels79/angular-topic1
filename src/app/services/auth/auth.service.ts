@@ -4,6 +4,7 @@ import { UserService } from '../user/user.service';
 import { IErrorMessage } from 'src/app/models/IErrorMessage';
 import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
+import { ConfigService } from '../config-service/config-service.service';
 
 
 @Injectable({
@@ -15,17 +16,6 @@ export class AuthService {
   readonly errorMsgObserv$=this.errorMsgObserv.asObservable();
 
   constructor(private userService:UserService, private http: HttpClient) { }
-  // private set usersStorage(val:IUser[]){
-  //   window.localStorage.setItem('ang_schk_users_store', JSON.stringify(val));
-  // }
-  // private get usersStorage():IUser[]{
-  //   const tmp:string|null = window.localStorage.getItem('ang_schk_users_store');
-  //   if (tmp){
-  //     return JSON.parse(tmp);
-  //   }else{
-  //     return [];
-  //   }
-  // }
 
   private proccedAuth(_user:IUser, token:string, storeUser?:boolean){
     this.errors = [];
@@ -35,7 +25,7 @@ export class AuthService {
   }
   login(uname:string,pswd:string, storeUser?:boolean){
     this.logout();
-    this.http.post<ILSUser>(`http://localhost:3000/users/${uname}`, {username:uname, pswd}).subscribe(data=>{
+    this.http.post<ILSUser>(ConfigService.createURL(`users/${uname}`), {username:uname, pswd}).subscribe(data=>{
       if( data!==null && typeof(data)==='object'){
         this.proccedAuth(data.user, data.access_token, storeUser);
       }
@@ -51,12 +41,16 @@ export class AuthService {
     this.userService.setUser(null);
     this.userService.setToken('', true);
   }
-  signup(uname:string,pswd:string,email:string, cardNumber?:string, storeUser?:boolean){
+  signup(uname:string,realname:string,pswd:string,email:string, cardNumber?:string, storeUser?:boolean){
     const _errors:IErrorMessage[] = [];
     if (!email){
-      _errors.push({fieldName:'email', message:'Необходимо указать почту'});
-    }else if (!/^[^.][A-Z0-9._%+-]+@[A-Z0-9-]+\.{1}[A-Z]{2,4}$/i.test(email)){
-      _errors.push({fieldName:'email', message:'Формат поля "Почта" должен соответствовать email адресу'});
+      _errors.push({fieldName:'email', message:'Необходимо указать почту.'});
+    }
+    if (!realname){
+      _errors.push({fieldName:'email', message:'Необходимо настоящее имя.'});
+    }
+    if (!/^[^.][A-Z0-9._%+-]+@[A-Z0-9-]+\.{1}[A-Z]{2,4}$/i.test(email)){
+      _errors.push({fieldName:'email', message:'Формат поля "Почта" должен соответствовать email адресу.'});
     }
     if (pswd.length<8){
       _errors.push({fieldName:'password', message:'Поле "Пароль" должно содержать не менее 8-ми символов!'});
@@ -66,11 +60,12 @@ export class AuthService {
     }else{
       const user:IUser={
         username:uname,
+        realname:realname,
         pswd:pswd,
         cardNumber:cardNumber,
         email:email
       };
-      this.http.post<ILSUser>('http://localhost:3000/users', user).subscribe((data)=>{
+      this.http.post<ILSUser>(ConfigService.createURL('users'), user).subscribe((data)=>{
         if( data!==null && typeof(data)==='object'){
           this.proccedAuth(data.user, data.access_token, storeUser);
         }

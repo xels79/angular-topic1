@@ -12,12 +12,14 @@ import { RestIterceptorsService } from './services/interceptors/rest-iterceptors
 import { ConfigService } from './services/config-service/config-service.service';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+// import { NotFoundComponent } from './pages/not-found/not-found.component';
 
 registerLocaleData(localeRu, 'ru');
 
 @NgModule({
   declarations: [
     AppComponent,
+    // NotFoundComponent,
 
   ],
   imports: [

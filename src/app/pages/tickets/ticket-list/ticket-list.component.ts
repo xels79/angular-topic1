@@ -6,6 +6,8 @@ import { ITourTypeSelect } from 'src/app/models/ITourTypeSelect';
 import { TicketService } from 'src/app/services/ticket/ticket.service';
 import { TiсketsStorageService } from 'src/app/services/tiсkets-storage/tiсkets-storage.service';
 import {formatDate} from '@angular/common'
+import { MessageService } from 'primeng/api';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-ticket-list',
@@ -27,7 +29,9 @@ export class TicketListComponent implements OnInit, OnDestroy, AfterViewInit{
   constructor(
     private ticketsStorage:TiсketsStorageService,
     private router: Router,
-    private ticketService:TicketService
+    private ticketService:TicketService,
+    private messageService: MessageService,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
@@ -37,13 +41,22 @@ export class TicketListComponent implements OnInit, OnDestroy, AfterViewInit{
     this.searchString = this.ticketService.doSearchString;
     if (!this.tickets.length){
       this.showLoading = true;
-      this.ticketService.getTickets().subscribe(
-        (data)=>{
+      this.ticketService.getTickets().subscribe({
+        next: (data)=>{
           this.ticketsStorage.setStorage(data);
           this.tickets = data;
           this.showLoading = false;
+        },
+        error: err=>{
+          if (err.status===401){
+            this.messageService.add({severity: 'error', summary: 'Ошибка', detail: 'Требуется авторизация.'});
+            this.authService.logout();
+            this.router.navigate(['/auth']);
+          }else{
+            console.log("Ошибка.");
+          }
         }
-      );
+    });
       }
     this.tourUnsubscriber = this.ticketService
                                 .getTicketTypeObservable()
@@ -110,7 +123,7 @@ export class TicketListComponent implements OnInit, OnDestroy, AfterViewInit{
     }
   }
   ticketDblClick(id:string){
-    console.log('dblk');
+    console.log('dblk', id);
     this.router.navigate(['/tickets/ticket',id]);
   }
   onItemEnter(index:number){

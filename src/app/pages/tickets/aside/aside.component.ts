@@ -1,8 +1,11 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { Subscription, take } from 'rxjs';
 import { IMenuType } from 'src/app/models/IMenuType ';
+import ITour from 'src/app/models/ITour';
 import { ITourTypeSelect } from 'src/app/models/ITourTypeSelect';
+import { ConfigService } from 'src/app/services/config-service/config-service.service';
 import { SettingsService } from 'src/app/services/settings/settings.service';
 import { TicketService } from 'src/app/services/ticket/ticket.service';
 
@@ -27,7 +30,8 @@ export class AsideComponent implements OnInit, OnDestroy {
   constructor(
     private ticketService:TicketService,
     private messageService: MessageService,
-    private settingService: SettingsService
+    private settingService: SettingsService,
+    private http: HttpClient
   ) { }
 
   ngOnInit(): void {
@@ -47,6 +51,7 @@ export class AsideComponent implements OnInit, OnDestroy {
       this.ticketService.updateTour(ev.value);
     }
   }
+  
   checkDate(){
     if (this.selectedTourDate != this.oldSelectedTourDate){
       this.oldSelectedTourDate = this.selectedTourDate;
@@ -57,6 +62,7 @@ export class AsideComponent implements OnInit, OnDestroy {
       }
     }
   }
+  
   initRestError(): void {
     this.ticketService.getError().subscribe({
       next:(data) => {},
@@ -65,9 +71,24 @@ export class AsideComponent implements OnInit, OnDestroy {
       }
     });
   }
+
   initSettingData():void{
     this.settingService.loadUserSetttingsSubject({
       saveToken:false
+    });
+  }
+
+  initTours(): void {
+    this.http.post<ITour[]>(ConfigService.createURL('tours/'), {}).subscribe({
+      next: data=>{ console.log("Status ok:", data); },
+      error: err=>{ console.log('error',err); }
+    });
+  }
+
+  deleteTours(): void {
+    this.http.delete(ConfigService.createURL('tours')).subscribe({
+      next: data=>{ console.log("Status ok:",data); },
+      error: err=>{ console.log('error',err); }
     });
   }
 }

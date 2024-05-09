@@ -1,6 +1,7 @@
 export interface IUser{
     username:string,
     pswd?:string,
+    realname:string,
     email:string,
     cardNumber?:string
     _id?:string,

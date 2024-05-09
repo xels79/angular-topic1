@@ -11,6 +11,7 @@ import { UserService } from 'src/app/services/user/user.service';
 interface IVisited{
   username?:boolean,
   password?:boolean,
+  realname?:boolean,
   email?:boolean,
   pswdRepeat?:boolean
 }
@@ -26,6 +27,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   logIn:string;
   pswd:string;
   pswdRepeat:string;
+  realname:string;
   cardNumber:string;
   email:string;
   storeUser:boolean;
@@ -82,7 +84,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       this.messageService.add({severity:"error",summary:"Ошибка",detail:"Пароли не савподают."});
     }else{
       this.showLoading = true;
-      this.authService.signup(this.logIn,this.pswd, this.email ,this.cardNumber, this.storeUser)
+      this.authService.signup(this.logIn,this.realname,this.pswd, this.email ,this.cardNumber, this.storeUser)
     }
   }
   setVisited(name:keyof IVisited):void{
@@ -92,6 +94,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   errorTrnslate(key:string): string{
     const val = [
       {_key:'username', t:'Имя пользователя'},
+      {_key:'realname', t:'Реальное имя'},
       {_key:'password', t:'Пароль'},
       {_key:'pswdRepeat', t:'Повторить пароль'},
       {_key:'email', t:'Почта'}

@@ -10,6 +10,21 @@ export class ConfigService {
   static config:IConfig;
   constructor( private http: HttpClient) { }
 
+  static createURL(relativePath: string): string {
+    const relP = relativePath.charAt(0) == '\\' || relativePath.charAt(0) == '/'
+      ?relativePath.substring(1)
+      :relativePath;
+    if (ConfigService.config.endPoint.length){
+      if (ConfigService.config.endPoint.charAt(ConfigService.config.endPoint.length -1)=='/'){
+        return ConfigService.config.endPoint + relP;
+      }else{
+        return ConfigService.config.endPoint + '/' + relP;
+      }
+    }else{
+      return relP;
+    }
+  }
+
   configLoad(): void{
     const fPath='assets/config/config.json';
     this.http.get<IConfig>(fPath).subscribe(

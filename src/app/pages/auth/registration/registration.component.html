@@ -5,20 +5,34 @@
 <div class="d-flex flex-column auth__form register__form">
     <p class="fs-2 align-self-center">Регистрация</p>
     <div class="input-group">
-        <span class="input-group-text form__label">Имя пользователя</span>
-        <input type="text" class="form-control"
-                type="text"
-                pInputText
-                [(ngModel)]="logIn"
-                name="username"
-                [class]="{
-                  'is-valid':(visited.username && logIn && !hasError('username')),
-                  'is-invalid':hasError('username') || (visited.username && !logIn)
-                }"
-                (blur)="setVisited('username')"
-                />
-    </div>
-    <div class="input-group mt-3">
+      <span class="input-group-text form__label">Имя пользователя</span>
+      <input type="text" class="form-control"
+              type="text"
+              pInputText
+              [(ngModel)]="logIn"
+              name="username"
+              [class]="{
+                'is-valid':(visited.username && logIn && !hasError('username')),
+                'is-invalid':hasError('username') || (visited.username && !logIn)
+              }"
+              (blur)="setVisited('username')"
+              />
+  </div>
+  <div class="input-group mt-3">
+    <span class="input-group-text form__label">Реальное имя</span>
+    <input type="text" class="form-control"
+            type="text"
+            pInputText
+            [(ngModel)]="realname"
+            name="realname"
+            [class]="{
+              'is-valid':(visited.realname && realname && !hasError('realname')),
+              'is-invalid':hasError('username') || (visited.realname && !realname)
+            }"
+            (blur)="setVisited('username')"
+            />
+  </div>
+  <div class="input-group mt-3">
         <span class="input-group-text form__label">Пароль</span>
         <input type="text" class="form-control"
                 type="password"
@@ -83,7 +97,7 @@
     </div>
 
     <div class="mt-3 d-flex align-self-center">
-        <button [disabled]="!logIn || !pswd || showLoading" type="submit" class="btn btn-success">Зарегистрироваться</button>
+        <button [disabled]="!logIn || !pswd || !realname || showLoading" type="submit" class="btn btn-success">Зарегистрироваться</button>
     </div>
 </div>
 </form>

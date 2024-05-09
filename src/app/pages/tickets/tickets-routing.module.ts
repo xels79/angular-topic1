@@ -22,6 +22,10 @@ const routes: Routes = [
           path:'orders',
           loadChildren:()=>import('../orders/orders.module').then(m=>m.OrdersModule),
           data:{hideAsaid:true}
+        },
+        {
+          path:'notfound',
+          loadChildren: ()=>import('../not-found/not-found-routing.module').then(m=>m.NotFoundRoutingModule)
         }
     ]
   }

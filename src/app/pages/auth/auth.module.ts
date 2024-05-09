@@ -18,7 +18,6 @@ import { ProgressBarModule } from 'primeng/progressbar';
     AuthorizationComponent,
     AuthComponent,
     RegistrationComponent,
-
   ],
   imports: [
     CommonModule,

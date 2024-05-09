@@ -2,6 +2,7 @@ import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import ITour, { INearestTour, ITourLocation } from 'src/app/models/ITour';
+import { ConfigService } from '../config-service/config-service.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,12 @@ export class TicketRestService {
   constructor( private http:HttpClient ) { }
 
   getTickets():Observable<ITour[]>{
-    return this.http.get<ITour[]>("https://62b9e756ff109cd1dc9dae16.mockapi.io/apiv/v1/tours/");
+    //return this.http.get<ITour[]>("https://62b9e756ff109cd1dc9dae16.mockapi.io/apiv/v1/tours/");
+    return this.http.get<ITour[]>(ConfigService.createURL("/tours/"));
+  }
+
+  getTicket( id: string ): Observable<ITour> {
+    return this.http.get<ITour>(ConfigService.createURL(`/tours/${id}`));
   }
 
   getRestError(): Observable<any> {

@@ -31,6 +31,9 @@ export class TicketService implements OnInit{
   getTickets(): Observable<ITour[]>{
     return this.ticketRest.getTickets();
   }
+  getTicket(id: string): Observable<ITour> {
+    return this.ticketRest.getTicket( id );
+  }
   getError(): Observable<any>{
     return this.ticketRest.getRestError();
   }

@@ -47,6 +47,14 @@ export class UserService implements OnInit {
       return '';
     }
   }
+  get realname(): string {
+    const user = this.getUser();
+    if (user){
+      return user.realname;
+    }else{
+      return '';
+    }
+  }
   getToken():string{
     if (!this.token){
       const value:string|null = window.localStorage.getItem('ang_schk_u_token');
