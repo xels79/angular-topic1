@@ -48,11 +48,7 @@ export class TicketListComponent implements OnInit, OnDestroy, AfterViewInit{
           this.showLoading = false;
         },
         error: err=>{
-          if (err.status===401){
-            this.messageService.add({severity: 'error', summary: 'Ошибка', detail: 'Требуется авторизация.'});
-            this.authService.logout();
-            this.router.navigate(['/auth']);
-          }else{
+          if (err.status!==401){
             console.log("Ошибка.");
           }
         }

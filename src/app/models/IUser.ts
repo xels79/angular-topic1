@@ -5,7 +5,6 @@ export interface IUser{
     email:string,
     cardNumber?:string
     _id?:string,
-    __v?:number,
 }
 export interface ILSUser{
     access_token: string,
