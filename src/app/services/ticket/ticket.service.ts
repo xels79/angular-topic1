@@ -3,6 +3,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { ITourTypeSelect } from 'src/app/models/ITourTypeSelect';
 import { TicketRestService } from '../rest/ticket-rest.service';
 import ITour, { INearestTour, ITourLocation } from 'src/app/models/ITour';
+import { IOrder } from 'src/app/models/IOrder';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +25,7 @@ export class TicketService implements OnInit{
   updateTour(type:ITourTypeSelect | undefined): void {
     this.ticketSubject.next(type);
   }
-  sendOrder(data:any): Observable<any>{
+  sendOrder(data: IOrder): Observable<IOrder>{
     return this.ticketRest.sendOrder( data );
   }
 

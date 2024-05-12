@@ -7,6 +7,8 @@ import { Subscription, forkJoin, fromEvent, map } from 'rxjs';
 import { TicketService } from 'src/app/services/ticket/ticket.service';
 import { MessageService } from 'primeng/api';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { UserService } from 'src/app/services/user/user.service';
+import { IOrder } from 'src/app/models/IOrder';
 
 @Component({
   selector: 'app-ticket-item',
@@ -28,7 +30,8 @@ export class TicketItemComponent implements OnInit, AfterViewInit, OnDestroy {
     private ticketService:TicketService,
     private messageService: MessageService,
     private authService: AuthService,
-    private mainRouter: Router
+    private mainRouter: Router,
+    private userService: UserService
   ) { }
 
   ngOnInit(): void {
@@ -37,13 +40,9 @@ export class TicketItemComponent implements OnInit, AfterViewInit, OnDestroy {
     if (id){
       //this.ticket = this.ticketStorage.getStorage().find(item=>item.id === id);
       this.ticketService.getTicket( id ).subscribe({
-        next: data=>{ this.ticket = data },
+        next: data=>{ this.ticket = data; },
         error: err=>{
-          if (err.status===401){
-            this.messageService.add({severity: 'error', summary: 'Ошибка', detail: 'Требуется авторизация.'});
-            this.authService.logout();
-            this.mainRouter.navigate(['/auth']);
-          }else if (err.status === 404) {
+          if (err.status === 404) {
             this.messageService.add({severity: 'error', summary: 'Ошибка', detail: 'Тур ненайден.'});
             this.mainRouter.navigate(['/tickets/notfound']);
           }else{
@@ -61,7 +60,7 @@ export class TicketItemComponent implements OnInit, AfterViewInit, OnDestroy {
       age:        new FormControl(22, { validators:Validators.min(21) }),
       citizen:    new FormControl()
     });
-    console.log(id,this.ticket);
+    console.log('init',id,this.ticket);
 
     //Ближайшие туры
     forkJoin([this.ticketService.getNearestTours(), this.ticketService.getToursLocation()]).pipe(
@@ -107,7 +106,19 @@ export class TicketItemComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   sendOrderClick():void{
     const data = this.userForm.getRawValue();
-    this.ticketService.sendOrder( data ).subscribe();
+    const postData = { ...this.ticket, ...data };
+    const userID = this.userService.getUser()._id || null;
+    //console.log('ticket', this.ticket);
+    //console.log('postData', this.ticket);
+    const postObj: IOrder = {
+      age: postData.age,
+      birthDay: postData.birthDay,
+      cardNumber: postData.cardNumber,
+      tourId: postData.id,
+      userId: userID
+    };
+    console.log(postObj);
+    this.ticketService.sendOrder( postObj ).subscribe();
   }
   get firstName():FormControl{
     return this.userForm.get('firstName') as FormControl;

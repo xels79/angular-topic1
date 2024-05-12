@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import ITour, { INearestTour, ITourLocation } from 'src/app/models/ITour';
 import { ConfigService } from '../config-service/config-service.service';
+import { IOrder } from 'src/app/models/IOrder';
 
 @Injectable({
   providedIn: 'root'
@@ -48,8 +49,8 @@ export class TicketRestService {
     return this.http.get<INearestTour>(url);
   }
 
-  sendOrder(data: any): Observable<any> {
-    
-    return this.http.post('', data);
+  sendOrder(data: IOrder): Observable<IOrder> {
+    console.log('sending data', data);
+    return this.http.post<IOrder>(ConfigService.createURL('order'), data);
   }
 }
