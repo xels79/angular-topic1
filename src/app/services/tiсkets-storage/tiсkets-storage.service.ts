@@ -10,8 +10,9 @@ export class TiсketsStorageService {
   constructor() { }
 
   setStorage(data: ITour[]): void {
+    console.log('storage set:', data); 
     this.storage = data;
-    //window.localStorage.setItem('ang_schk_ticket_temp_store', JSON.stringify(data));
+    window.localStorage.setItem('ang_schk_ticket_temp_store', JSON.stringify(data));
   }
 
   getStorage(): ITour[] {

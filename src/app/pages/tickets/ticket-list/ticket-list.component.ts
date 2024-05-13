@@ -25,9 +25,9 @@ export class TicketListComponent implements OnInit, OnDestroy, AfterViewInit{
   private tourUnsubscriber: Subscription;
   private childUpdater: Subject<{action:string,value:string | number | undefined}>;
   private tourSelectedType:ITourTypeSelect | undefined;
-
+  private ticketUpdateSubscription: Subscription;
   constructor(
-    private ticketsStorage:TiсketsStorageService,
+    private ticketsStorage:TiсketsStorageService, 
     private router: Router,
     private ticketService:TicketService,
     private messageService: MessageService,
@@ -39,13 +39,17 @@ export class TicketListComponent implements OnInit, OnDestroy, AfterViewInit{
     this.updater = this.childUpdater.asObservable();
     this.tickets = this.ticketsStorage.getStorage();
     this.searchString = this.ticketService.doSearchString;
+    this.ticketUpdateSubscription = this.ticketService.$ticketsUpdate.subscribe( data => {
+      console.log('getst update',data);
+      this.ticketsStorage.setStorage(data);
+      this.tickets = data;
+      this.showLoading = false;
+    });
     if (!this.tickets.length){
       this.showLoading = true;
       this.ticketService.getTickets().subscribe({
         next: (data)=>{
-          this.ticketsStorage.setStorage(data);
-          this.tickets = data;
-          this.showLoading = false;
+          this.ticketService.updateTickets(data);
         },
         error: err=>{
           if (err.status!==401){

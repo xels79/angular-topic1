@@ -22,7 +22,7 @@ import {CarouselModule} from 'primeng/carousel';
     InputTextModule,
     InputNumberModule,
     CalendarModule,
-    CarouselModule
+    CarouselModule 
   ]
 })
 export class TicketInfoModule { }

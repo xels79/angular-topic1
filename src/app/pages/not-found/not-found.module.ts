@@ -13,8 +13,8 @@ import { RouterLink, RouterModule } from '@angular/router';
   imports: [
     CommonModule,
     NotFoundRoutingModule,
-    RouterLink
+    RouterLink 
   ],
-  exports: [RouterModule]
-})
+   exports: [RouterModule] 
+}) 
 export class NotFoundModule { }

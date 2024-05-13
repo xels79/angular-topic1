@@ -80,14 +80,14 @@ export class AsideComponent implements OnInit, OnDestroy {
 
   initTours(): void {
     this.http.post<ITour[]>(ConfigService.createURL('tours/'), {}).subscribe({
-      next: data=>{ console.log("Status ok:", data); },
+      next: data=>{ this.ticketService.updateTickets(data); console.log("Status ok:", data); },
       error: err=>{ console.log('error',err); }
     });
   }
 
   deleteTours(): void {
     this.http.delete(ConfigService.createURL('tours')).subscribe({
-      next: data=>{ console.log("Status ok:",data); },
+      next: data=>{ this.ticketService.updateTickets([]); console.log("Status ok:",data); },
       error: err=>{ console.log('error',err); }
     });
   }

@@ -15,6 +15,7 @@ import { VisualSearchComponent } from './ticket-list/visual-search/visual-search
 import { ProgressBarModule } from 'primeng/progressbar';
 import { BlocksStyleDirective } from 'src/app/directive/blocks-style.directive';
 import { CalendarModule } from 'primeng/calendar';
+import { NotFoundRoutingModule } from '../not-found/not-found-routing.module';
 // import { ToastModule } from 'primeng/toast';
 // import { MessageService } from 'primeng/api';
 
