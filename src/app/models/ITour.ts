@@ -1,7 +1,14 @@
-export default interface ITour{
+export interface IBTour {
+  name: string,
+  description: string,
+  tourOperator: string,
+  price: string,
+  img: string,
+  type?: string
+}
+export default interface ITour extends IBTour{
     createdAt?: string,
     date?: string,
-    name: string,
     avatar?: string,
     id: string,
     firstName?: string,
@@ -10,11 +17,6 @@ export default interface ITour{
     birthDate?: string|null,
     age?: number|null,
     citizenship?: string|null,
-    description: string,
-    tourOperator: string,
-    price: string,
-    img: string,
-    type?: string
 }
 
 export interface INearestTour extends ITour{

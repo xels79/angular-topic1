@@ -23,6 +23,11 @@
           <app-statistic></app-statistic>
         </ng-template>
       </p-tabPanel>
+      <p-tabPanel [cache]="isTabCaching" header="Загрузка тура">
+        <ng-template pTemplate="content">
+          <app-tour-loader></app-tour-loader>
+        </ng-template>
+      </p-tabPanel>
     </p-tabView>
   </div>
 </div>

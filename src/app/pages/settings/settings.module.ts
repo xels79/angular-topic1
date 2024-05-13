@@ -12,6 +12,7 @@ import { ProgressBarModule } from 'primeng/progressbar';
 import { UsersComponent } from './components/users/users.component';
 import { InputTextModule } from 'primeng/inputtext';
 import { FilterPipe } from './pipes/filter.pipe';
+import { TourLoaderComponent } from './components/tour-loader/tour-loader.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { FilterPipe } from './pipes/filter.pipe';
     ChangePasswordComponent,
     StatisticComponent,
     UsersComponent,
-    FilterPipe
+    FilterPipe,
+    TourLoaderComponent
   ],
   imports: [
     CommonModule,

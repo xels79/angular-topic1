@@ -1,0 +1,87 @@
+<div class="toursul mt-4">
+  <p class="h4">Загрузка туров</p>
+  <form class="torsul__form" [formGroup]="tourForm" (submit)="submit()">
+    <div class="input-group has-validation mb-4">
+      <div
+        class="form-floating"
+        [class]="{
+          'is-invalid':name.invalid && name.touched,
+          'is-valid':name.valid && name.touched
+        }"
+      >
+        <input
+          type="text"
+          formControlName="name"
+          class="form-control is-invalid"
+          [class]="{
+            'is-invalid':name.invalid && name.touched,
+            'is-valid':name.valid && name.touched
+          }"
+          id="floatingInputGroup1" placeholder="Название">
+        <label for="floatingInputGroup1">Название</label>
+      </div>
+      <ng-container *ngTemplateOutlet="name.errors?.['required']?err:errEmpty;context: {$implicit: {label:'Название', text:'должно быть заполнено'}}"></ng-container>
+    </div>
+    <div class="input-group has-validation mt-4">
+      <div
+        class="form-floating"
+        [class]="{
+          'is-invalid':description.invalid && description.touched,
+          'is-valid':description.valid && description.touched
+        }"
+      >
+        <input
+          type="text"
+          formControlName="description"
+          class="form-control"
+          [class]="{
+            'is-invalid':description.invalid && description.touched,
+            'is-valid':description.valid && description.touched
+          }"
+          id="floatingInputGroup2" placeholder="Описание">
+        <label for="floatingInputGroup2">Описание</label>
+      </div>
+      <ng-container *ngTemplateOutlet="description.errors?.['required']?err:errEmpty ;context: {$implicit: {label:'Описание', text:'должно быть заполнено'}}"></ng-container>
+      <ng-container *ngTemplateOutlet="description.errors?.['minlength']?err:errEmpty ;context: {$implicit: {label:'Описание', text:'слишком коротко. Ещё '+(20 - description.value.length) + ' сим'}}"></ng-container>
+    </div>
+
+    <div class="input-group mt-4">
+      <div
+        class="form-floating"
+      >
+        <input
+          type="text"
+          formControlName="tourOperator"
+          class="form-control"
+          id="floatingInputGroup3" placeholder="Название туроператора">
+        <label for="floatingInputGroup3">Название туроператора</label>
+      </div>
+    </div>
+
+    <div class="input-group mt-4">
+      <div
+        class="form-floating"
+      >
+        <input
+          type="text"
+          formControlName="price"
+          class="form-control"
+          id="floatingInputGroup4" placeholder="Стоимость">
+        <label for="floatingInputGroup4">Стоимость</label>
+      </div>
+    </div>
+
+    <div class="input-group mb-3 mt-4">
+      <label for="formFile" class="input-group-text">Загрузка изображения</label>
+      <input class="form-control" type="file" id="formFile" (change)="selectFile($event)">
+    </div>
+
+    <div class="input-group mb-3 mt-4">
+      <button type="submit" class="btn btn-success" [disabled]="tourForm.invalid">Сохранить</button>
+    </div>
+
+  </form>
+</div>
+
+<ng-template #err let-data><div  class="invalid-feedback">Поле &laquo;{{data.label}}&raquo; {{data.text}}.</div></ng-template>
+<ng-template #errEmpty let-data></ng-template>
