@@ -1,8 +1,14 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { TreeNode } from 'primeng/api';
 import { BehaviorSubject, Observable, map, of, switchMap, withLatestFrom } from 'rxjs';
-import { ORDERMOCKS, OrderPropType, OrderType } from 'src/app/shared/moks/order';
-
+import { IOrder } from 'src/app/models/IOrder';
+import ITour from 'src/app/models/ITour';
+import { ORDERMOCKS } from 'src/app/shared/moks/order';
+import { ConfigService } from '../config-service/config-service.service';
+import { UserService } from '../user/user.service';
+export type OrderType = IOrder & ITour;
+type OrderPropType = keyof OrderType;
 @Injectable({
   providedIn: 'root'
 })
@@ -10,18 +16,26 @@ export class OrdersService {
   private groupOrders = new BehaviorSubject(false);
   readonly groupOrders$ = this.groupOrders.asObservable();
 
-  constructor() { }
+  constructor(
+    private http: HttpClient,
+    private userSrvice: UserService
+  ) { }
 
   getOrders(): Observable<TreeNode<OrderType[]>[]> {
-    return of(ORDERMOCKS).pipe(
-      withLatestFrom(this.groupOrders$),
-      switchMap(([orders, group])=>{
-        console.log("Групировка:", group);
-        return of(orders).pipe(
-          map( data=>[ group ? this.groupData( data, 'name' ) : this.transformOrderData( data ) ])
-        );
-      })
-    );
+    const userId=this.userSrvice.getUser()?._id;
+    if (userId){
+      return this.http.get<OrderType[]>(ConfigService.createURL(`order/${userId}`)).pipe(
+        withLatestFrom(this.groupOrders$),
+        switchMap(([orders, group])=>{
+          console.log("Групировка:", group);
+          return of(orders).pipe(
+            map( data=>[ group ? this.groupData( data, 'name' ) : this.transformOrderData( data ) ])
+          );
+        })
+      );
+    }else{
+      return of(<TreeNode<OrderType[]>[]><unknown>[{ data: 'Пусто' }]);
+    }
   }
 
   transformOrderData(data: OrderType[]): TreeNode<OrderType[]> {

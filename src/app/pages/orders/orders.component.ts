@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TreeNode } from 'primeng/api';
 import { Observable, Subscription } from 'rxjs';
-import { OrdersService } from 'src/app/services/orders/orders.service';
-import { OrderType } from 'src/app/shared/moks/order';
+import { OrderType, OrdersService } from 'src/app/services/orders/orders.service';
+//import { OrderType } from 'src/app/shared/moks/order';
 
 @Component({
   selector: 'app-orders',
