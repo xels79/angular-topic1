@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { ActivatedRouteSnapshot } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Subscription, take } from 'rxjs';
 import { IMenuType } from 'src/app/models/IMenuType ';
@@ -26,12 +27,13 @@ export class AsideComponent implements OnInit, OnDestroy {
     {label: 'Одиночный', value: 'single'},
     {label: 'Групповой', value: 'multi'}
   ]
+  @Input() orderButtonsIsOperated: boolean = true;
   // @Output() changeMenuType = new EventEmitter<IMenuType>();
   constructor(
     private ticketService:TicketService,
     private messageService: MessageService,
     private settingService: SettingsService,
-    private http: HttpClient
+    private http: HttpClient,
   ) { }
 
   ngOnInit(): void {

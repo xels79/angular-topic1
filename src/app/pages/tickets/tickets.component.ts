@@ -12,6 +12,7 @@ export class TicketsComponent implements OnInit, OnDestroy {
   selectedMenuType: IMenuType;
   showAsaid = true;
   private destr = new Subject<void>();
+  orderButtonsIsOperated = true;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -21,12 +22,14 @@ export class TicketsComponent implements OnInit, OnDestroy {
     //Asaid panel
 
     this.showAsaid = !this.reqursiveFindAsaidData(this.route.snapshot,'hideAsaid');
+    this.orderButtonsIsOperated = !this.reqursiveFindAsaidData(this.route.snapshot,'blockOrderButton');
     this.router.events.pipe(
       filter(ev=>ev instanceof ActivationStart),
       map(ev=>(ev as ActivationStart).snapshot.data),
       takeUntil(this.destr),
     ).subscribe(data=>{
       this.showAsaid = !data['hideAsaid'];
+      this.orderButtonsIsOperated = !data['blockOrderButton'];
     })
 
   }

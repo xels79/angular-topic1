@@ -7,7 +7,7 @@
             <router-outlet></router-outlet>
         </div>
         <div>
-            <app-aside *ngIf="showAsaid"></app-aside>
+            <app-aside *ngIf="showAsaid" [orderButtonsIsOperated]="orderButtonsIsOperated"></app-aside>
         </div>
     </div>
     <footer>
