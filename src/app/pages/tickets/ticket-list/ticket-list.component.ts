@@ -27,7 +27,7 @@ export class TicketListComponent implements OnInit, OnDestroy, AfterViewInit{
   private tourSelectedType:ITourTypeSelect | undefined;
   private ticketUpdateSubscription: Subscription;
   constructor(
-    private ticketsStorage:TiсketsStorageService, 
+    private ticketsStorage:TiсketsStorageService,
     private router: Router,
     private ticketService:TicketService,
     private messageService: MessageService,
@@ -141,5 +141,9 @@ export class TicketListComponent implements OnInit, OnDestroy, AfterViewInit{
   onItemSelect(index:number){
     console.log("tl - itemselect",index);
     this.ticketService.lastItemIndex = index;
+  }
+
+  createUrl( url: string): string {
+    return this.ticketService.createUrl( url );
   }
 }

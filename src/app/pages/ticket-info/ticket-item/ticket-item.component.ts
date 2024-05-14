@@ -130,4 +130,8 @@ export class TicketItemComponent implements OnInit, AfterViewInit, OnDestroy {
     return this.userForm.get('age') as FormControl;
   }
 
+  createUrl( url: string): string {
+    return this.ticketService.createUrl( url );
+  }
+
 }

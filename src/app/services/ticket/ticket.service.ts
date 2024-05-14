@@ -4,6 +4,7 @@ import { ITourTypeSelect } from 'src/app/models/ITourTypeSelect';
 import { TicketRestService } from '../rest/ticket-rest.service';
 import ITour, { INearestTour, ITourLocation } from 'src/app/models/ITour';
 import { IOrder } from 'src/app/models/IOrder';
+import { ConfigService } from '../config-service/config-service.service';
 
 @Injectable({
   providedIn: 'root'
@@ -55,8 +56,22 @@ export class TicketService implements OnInit{
   getToursLocation(): Observable<ITourLocation[]> {
     return this.ticketRest.getLocationList();
   }
-  
+
   getRandomNearestTours(type: number): Observable<INearestTour> {
     return this.ticketRest.getRandomNearestTours(type);
+  }
+
+  createTour(body: FormData): Observable<any> {
+    return this.ticketRest.createTour( body );
+  }
+  createUrl( url: string): string {
+    if (url.startsWith('/public')) {
+        return url.replace(
+          '/public',
+          ConfigService.createURL('/public')
+        );
+    }else{
+      return url;
+    }
   }
 }

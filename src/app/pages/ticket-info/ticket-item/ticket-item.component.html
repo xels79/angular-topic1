@@ -12,7 +12,7 @@
     <div *ngIf="ticket" class="card mb-3" style="max-width: 100%;">
       <div class="row g-0">
         <div class="col-md-6">
-          <img src="/assets/img/{{ticket.img}}" class="img-fluid rounded-start" alt="...">
+          <img src="{{createUrl( ticket.img )}}" class="img-fluid rounded-start" alt="...">
         </div>
         <div class="col-md-6">
           <div class="card-body">

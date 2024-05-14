@@ -49,6 +49,14 @@ export class TicketRestService {
     return this.http.get<INearestTour>(url);
   }
 
+  createTour(body: FormData):Observable<any> {
+    console.log('sending');
+    body.forEach((value, key)=>{
+      console.log(key,value);
+    });
+    return this.http.post<any>( ConfigService.createURL('tour-item'), body );
+  }
+
   sendOrder(data: IOrder): Observable<IOrder> {
     console.log('sending data', data);
     return this.http.post<IOrder>(ConfigService.createURL('order'), data);

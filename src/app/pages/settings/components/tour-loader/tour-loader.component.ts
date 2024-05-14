@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { EventType } from '@angular/router';
 import { IBTour } from 'src/app/models/ITour';
+import { TicketService } from 'src/app/services/ticket/ticket.service';
 
 @Component({
   selector: 'app-tour-loader',
@@ -11,7 +12,7 @@ import { IBTour } from 'src/app/models/ITour';
 export class TourLoaderComponent implements OnInit {
   tourForm: FormGroup;
 
-  constructor() { }
+  constructor(private ticketService: TicketService) { }
 
   ngOnInit(): void {
     this.tourForm = new FormGroup({
@@ -48,8 +49,15 @@ export class TourLoaderComponent implements OnInit {
     if (typeof(rawData) === 'object'){
       for (let key in rawData){
         formData.append( key, rawData[key] );
-        console.log( key, rawData[key] );
       }
+      this.ticketService.createTour( formData ).subscribe( {
+        next: answer=>{
+          console.log(answer);
+        },
+        error: err=>{
+          console.log(err);
+        }
+      } );
     }
   }
 }
