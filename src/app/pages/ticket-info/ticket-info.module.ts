@@ -9,6 +9,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { CalendarModule } from 'primeng/calendar';
 import {CarouselModule} from 'primeng/carousel';
+import { ProgressBarModule } from 'primeng/progressbar';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import {CarouselModule} from 'primeng/carousel';
     InputTextModule,
     InputNumberModule,
     CalendarModule,
-    CarouselModule 
+    CarouselModule,
+    ProgressBarModule
   ]
 })
 export class TicketInfoModule { }

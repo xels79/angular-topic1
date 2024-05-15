@@ -1,6 +1,9 @@
 <div class="toursul mt-4">
   <p class="h4">Загрузка туров</p>
   <form class="torsul__form" [formGroup]="tourForm" (submit)="submit()">
+    <div class="loader" style="min-height: 6px;">
+      <p-progressBar *ngIf="showLoading" mode="indeterminate" [style]="{ height: '6px' }"></p-progressBar>
+    </div>
     <div class="input-group has-validation mb-4">
       <div
         class="form-floating"

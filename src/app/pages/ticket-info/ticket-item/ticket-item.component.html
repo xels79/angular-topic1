@@ -7,6 +7,9 @@
       </ol>
     </nav>
   </div>
+  <div class="loader" style="min-height: 6px;">
+    <p-progressBar *ngIf="showLoader" mode="indeterminate" [style]="{ height: '6px' }"></p-progressBar>
+  </div>
   <div class="row">
   <div class="ticket__info">
     <div *ngIf="ticket" class="card mb-3" style="max-width: 100%;">
@@ -19,6 +22,7 @@
             <h4 class="card-title">Информация о туре</h4>
             <h5 class="card-title">{{ticket.name}}</h5>
             <p class="card-text">{{ticket.description}}</p>
+            <p class="card-text">Туроператор:&nbsp;&laquo;{{ticket.tourOperator}}&raquo;</p>
           </div>
         </div>
       </div>
@@ -98,28 +102,34 @@
       </div>
     </div>
   </div>
-  <div class="row ">
-    <h4 class="card-title">Похожие туры</h4>
-    <div class="input-group input-group-sm mb-3">
-      <span class="input-group-text" id="inputGroup-sizing-sm">Поиск по названию:</span>
-      <input
-        #ntSearchElement
-        type="text"
-        class="form-control"
-        aria-label="search by name"
-        aria-describedby="inputGroup-sizing-sm"
-        tabindex="1"
-      >
-      <button tabindex="2" class="btn btn-outline-secondary" type="button" id="button-clear-search">Очистить</button>
-  </div>
-    <p-carousel [value]="nearestTours">
-      <ng-template let-tour pTemplate="item">
-        <figure class="figure mt-3">
-          <figcaption class="figure-caption text-center fs-4">{{tour.name}}</figcaption>
-          <img src="/assets/img/{{tour.img}}" class="figure-img img-fluid rounded" alt="...">
-          <figcaption class="figure-caption text-start fs-5">Страна: {{tour.country.name}}</figcaption>
-        </figure>
-      </ng-template>
-    </p-carousel>
-  </div>
+    <div class="card">
+      <div class="card-header">Туры</div>
+      <div class="card-body">
+        <div class="input-group input-group-sm mb-3">
+          <span class="input-group-text" id="inputGroup-sizing-sm">Поиск по названию:</span>
+          <input
+            #ntSearchElement
+            type="text"
+            class="form-control"
+            aria-label="search by name"
+            aria-describedby="inputGroup-sizing-sm"
+            tabindex="1"
+          >
+          <button tabindex="2" class="btn btn-outline-secondary" type="button" id="button-clear-search">Очистить</button>
+        </div>
+        <div class="loader" style="min-height: 6px;">
+          <p-progressBar *ngIf="showLoader2" mode="indeterminate" [style]="{ height: '6px' }"></p-progressBar>
+        </div>
+        <p-carousel [value]="nearestTours">
+          <ng-template let-tour pTemplate="item">
+            <figure class="figure mt-3">
+              <figcaption class="figure-caption text-center fs-4">{{tour.name}}</figcaption>
+              <img src="{{createUrl( tour.img )}}" class="figure-img img-fluid rounded" alt="...">
+              <!-- <figcaption class="figure-caption text-start fs-5">Страна: {{tour.country.name}}</figcaption> -->
+            </figure>
+          </ng-template>
+        </p-carousel>
+      </div>
+    </div>
 </div>
+

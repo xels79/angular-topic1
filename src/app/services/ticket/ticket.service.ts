@@ -41,6 +41,10 @@ export class TicketService implements OnInit{
     return this.ticketRest.getTickets();
   }
 
+  getTicketsByName( name:string ): Observable<ITour[]> {
+    return this.ticketRest.getTicketsByName( name );
+  }
+
   getTicket(id: string): Observable<ITour> {
     return this.ticketRest.getTicket( id );
   }

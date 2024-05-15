@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { EventType } from '@angular/router';
+import { EventType, Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
 import { IBTour } from 'src/app/models/ITour';
 import { TicketService } from 'src/app/services/ticket/ticket.service';
 
@@ -11,8 +12,12 @@ import { TicketService } from 'src/app/services/ticket/ticket.service';
 })
 export class TourLoaderComponent implements OnInit {
   tourForm: FormGroup;
-
-  constructor(private ticketService: TicketService) { }
+  showLoading: boolean;
+  constructor(
+    private ticketService: TicketService,
+    private messageService: MessageService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
     this.tourForm = new FormGroup({
@@ -22,6 +27,7 @@ export class TourLoaderComponent implements OnInit {
       price: new FormControl<string>( '' ),
       img: new FormControl()
     });
+    this.showLoading = false;
   }
 
   get name():FormControl{
@@ -50,13 +56,18 @@ export class TourLoaderComponent implements OnInit {
       for (let key in rawData){
         formData.append( key, rawData[key] );
       }
+      this.showLoading = true;
       this.ticketService.createTour( formData ).subscribe( {
         next: answer=>{
           console.log(answer);
+          this.ticketService.updateTickets( [] );
+          this.messageService.add( {severity:'info', summary:'Информация', detail:'Тур успешнр добавлен'} );
+          this.router.navigate(['/tickets/list']);
         },
         error: err=>{
           console.log(err);
-        }
+        },
+        complete:()=>{ this.showLoading = false; }
       } );
     }
   }
