@@ -115,7 +115,7 @@
             aria-describedby="inputGroup-sizing-sm"
             tabindex="1"
           >
-          <button tabindex="2" class="btn btn-outline-secondary" type="button" id="button-clear-search">Очистить</button>
+          <button tabindex="2" class="btn btn-outline-secondary" type="button" id="button-clear-search" (click)="clearSearchField()">Очистить</button>
         </div>
         <div class="loader" style="min-height: 6px;">
           <p-progressBar *ngIf="showLoader2" mode="indeterminate" [style]="{ height: '6px' }"></p-progressBar>
