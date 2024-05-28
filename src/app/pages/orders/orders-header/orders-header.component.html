@@ -8,6 +8,6 @@
     </nav>
   </div>
   <div class="row">
-    <p-checkbox (onChange)="groupOrder($event)" [binary]="true" [label]="'Групировать заказы'"></p-checkbox>
+    <p-checkbox (onChange)="groupOrder($event)" [binary]="true" [label]="'Групировать заказы'" [(ngModel)]="groupOrderChecked"></p-checkbox>
   </div>
 </div>

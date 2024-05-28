@@ -6,6 +6,7 @@ import {CheckboxModule} from 'primeng/checkbox';
 import { OrdersRoutingModule } from './orders-routing.module';
 import { OrdersComponent } from './orders.component';
 import { OrdersHeaderComponent } from './orders-header/orders-header.component';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { OrdersHeaderComponent } from './orders-header/orders-header.component';
     CommonModule,
     OrdersRoutingModule,
     TreeTableModule,
-    CheckboxModule
+    CheckboxModule,
+    FormsModule
   ]
 })
 export class OrdersModule { }
