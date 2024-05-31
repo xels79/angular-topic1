@@ -22,9 +22,9 @@ export class OrdersService {
   ) { }
 
   getOrders(): Observable<TreeNode<OrderType[]>[]> {
-    const userId=this.userSrvice.getUser()?._id;
-    if (userId){
-      return this.http.get<OrderType[]>(ConfigService.createURL(`order/${userId}`)).pipe(
+    const username=this.userSrvice.getUser()?.username;
+    if (username){
+      return this.http.get<OrderType[]>(ConfigService.createURL(`order/${username}`)).pipe(
         withLatestFrom(this.groupOrders$),
         switchMap(([orders, group])=>{
           console.log("Групировка:", group);

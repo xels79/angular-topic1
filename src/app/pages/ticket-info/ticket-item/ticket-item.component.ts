@@ -69,16 +69,6 @@ export class TicketItemComponent implements OnInit, AfterViewInit, OnDestroy {
     });
     console.log('init',id,this.ticket);
 
-    //Ближайшие туры
-     //forkJoin([this.ticketService.getNearestTours(), this.ticketService.getToursLocation()]).pipe();
-    //   map(data=>
-    //       data[0].map(tourItem=>{
-    //         const tnExtends:INearestTourExtend = tourItem;
-    //         tnExtends.country = data[1].find( locationItem=>tourItem.locationId === locationItem.id);
-    //         return tnExtends;
-    //       })
-    //   )
-    // )
     this.ticketService.getTickets().subscribe({
       next: data=>{
         console.log(data);
@@ -142,7 +132,12 @@ export class TicketItemComponent implements OnInit, AfterViewInit, OnDestroy {
       userId: userID
     };
     console.log(postObj);
-    this.ticketService.sendOrder( postObj ).subscribe();
+    this.ticketService.sendOrder( postObj ).subscribe({
+      complete:()=>{
+        this.messageService.add({severity:'info',summary:'Информация',detail:'Заказ добавлен'});
+        this.mainRouter.navigate(['/tickets/orders']);
+      }
+    });
   }
   get firstName():FormControl{
     return this.userForm.get('firstName') as FormControl;

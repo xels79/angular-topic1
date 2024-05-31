@@ -3,5 +3,6 @@ export interface IOrder{
     birthDay: string | null,
     cardNumber: string,
     tourId: string | null,
-    userId: string | null,
+    userId?: string | null,
+    userName?: string
 }
