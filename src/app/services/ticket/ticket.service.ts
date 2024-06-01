@@ -13,6 +13,7 @@ export class TicketService implements OnInit{
   private ticketSubject = new  BehaviorSubject<ITourTypeSelect | undefined>(undefined)
   private ticketsUpdate = new BehaviorSubject<ITour[]>([]);
   readonly $ticketsUpdate = this.ticketsUpdate.asObservable();
+  readonly $ticketSubject = this.ticketSubject.asObservable();
   doSearchString:string;
   lastItemIndex:number;
   constructor(private ticketRest:TicketRestService) { }

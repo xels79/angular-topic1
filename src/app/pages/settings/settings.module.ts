@@ -13,6 +13,7 @@ import { UsersComponent } from './components/users/users.component';
 import { InputTextModule } from 'primeng/inputtext';
 import { FilterPipe } from './pipes/filter.pipe';
 import { TourLoaderComponent } from './components/tour-loader/tour-loader.component';
+import { DropdownModule } from 'primeng/dropdown';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { TourLoaderComponent } from './components/tour-loader/tour-loader.compon
     TableModule,
     ProgressBarModule,
     InputTextModule,
-    FormsModule
+    FormsModule,
+    DropdownModule
   ]
 })
 export class SettingsModule { }

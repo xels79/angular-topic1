@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { EventType, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { IBTour } from 'src/app/models/ITour';
+import { ITourTypeSelect } from 'src/app/models/ITourTypeSelect';
 import { TicketService } from 'src/app/services/ticket/ticket.service';
 
 @Component({
@@ -13,6 +14,11 @@ import { TicketService } from 'src/app/services/ticket/ticket.service';
 export class TourLoaderComponent implements OnInit {
   tourForm: FormGroup;
   showLoading: boolean;
+  tourTypes: ITourTypeSelect[] = [
+    {label: 'Одиночный', value: 'single'},
+    {label: 'Групповой', value: 'multi'}
+  ]
+
   constructor(
     private ticketService: TicketService,
     private messageService: MessageService,
@@ -25,7 +31,9 @@ export class TourLoaderComponent implements OnInit {
       description: new FormControl<string>( '', {validators: [Validators.required, Validators.minLength(20)]} ),
       tourOperator: new FormControl<string>( '' ),
       price: new FormControl<string>( '' ),
-      img: new FormControl()
+      img: new FormControl(),
+      tourtype:   new FormControl<ITourTypeSelect>({label: 'Одиночный', value: 'single'})
+
     });
     this.showLoading = false;
   }
@@ -54,7 +62,11 @@ export class TourLoaderComponent implements OnInit {
     const formData = new FormData();
     if (typeof(rawData) === 'object'){
       for (let key in rawData){
-        formData.append( key, rawData[key] );
+        if (key === 'tourtype'){
+          formData.append( 'type', rawData[key].value );
+        }else{
+          formData.append( key, rawData[key] );
+        }
       }
       this.showLoading = true;
       this.ticketService.createTour( formData ).subscribe( {

@@ -12,7 +12,7 @@ const routes: Routes = [
         {
           path:'ticket/:id',
           loadChildren:()=>import('../ticket-info/ticket-info.module').then(m=>m.TicketInfoModule),
-          data:{blockOrderButton:true}
+          data:{blockOrderButton:true, hideAsaid:true}
         },
         {
           path:'settings',

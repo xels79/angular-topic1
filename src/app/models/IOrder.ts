@@ -4,5 +4,5 @@ export interface IOrder{
     cardNumber: string,
     tourId: string | null,
     userId?: string | null,
-    userName?: string
-}
+    userName?: string,
+    type: string}

@@ -9,6 +9,8 @@ import { MessageService } from 'primeng/api';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { UserService } from 'src/app/services/user/user.service';
 import { IOrder } from 'src/app/models/IOrder';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ITourTypeSelect } from 'src/app/models/ITourTypeSelect';
 
 @Component({
   selector: 'app-ticket-item',
@@ -23,6 +25,7 @@ export class TicketItemComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('ntSearchElement') ntSearchElement: ElementRef;
   showLoader: boolean;
   showLoader2:boolean;
+
   private NTSESubscribtion: Subscription;
   private ticketRestSub: Subscription;
   private needRefresh: boolean;
@@ -65,7 +68,7 @@ export class TicketItemComponent implements OnInit, AfterViewInit, OnDestroy {
       cardNumber: new FormControl(),
       birthDay:   new FormControl(),
       age:        new FormControl(22, { validators:Validators.min(21) }),
-      citizen:    new FormControl()
+      citizen:    new FormControl(),
     });
     console.log('init',id,this.ticket);
 
@@ -129,13 +132,17 @@ export class TicketItemComponent implements OnInit, AfterViewInit, OnDestroy {
       birthDay: postData.birthDay,
       cardNumber: postData.cardNumber,
       tourId: postData.id,
-      userId: userID
+      userId: userID,
+      type: postData.tourtype.value
     };
     console.log(postObj);
     this.ticketService.sendOrder( postObj ).subscribe({
       complete:()=>{
         this.messageService.add({severity:'info',summary:'Информация',detail:'Заказ добавлен'});
         this.mainRouter.navigate(['/tickets/orders']);
+      },
+      error:(err:HttpErrorResponse)=>{
+        this.messageService.add({severity:'error',summary:'Ошибка',detail:err.message});
       }
     });
   }

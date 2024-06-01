@@ -65,6 +65,23 @@
       <div
         class="form-floating"
       >
+      <span class="p-float-label">
+        <p-dropdown [options]="tourTypes"
+                    formControlName="tourtype"
+                    optionLabel="label" inputId="ttType"
+                    [style]="{width:'100%'}"
+                    [tabindex]="6"
+        >
+        </p-dropdown>
+      </span>
+
+      </div>
+    </div>
+
+    <div class="input-group mt-4">
+      <div
+        class="form-floating"
+      >
         <input
           type="text"
           formControlName="price"

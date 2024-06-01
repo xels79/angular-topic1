@@ -11,6 +11,7 @@ import { CalendarModule } from 'primeng/calendar';
 import {CarouselModule} from 'primeng/carousel';
 import { ProgressBarModule } from 'primeng/progressbar';
 
+
 @NgModule({
   declarations: [
     TicketItemComponent
@@ -24,7 +25,7 @@ import { ProgressBarModule } from 'primeng/progressbar';
     InputNumberModule,
     CalendarModule,
     CarouselModule,
-    ProgressBarModule
+    ProgressBarModule,
   ]
 })
 export class TicketInfoModule { }

@@ -4,8 +4,10 @@
     height: 48px;
     // max-height: 46px;
   }
-  ::ng-deep .p-element{
-    width: 100%;
+  ::ng-deep .input-100{
+    .p-element{
+      width: 100%;
+    }
   }
   ::ng-deep .p-inputnumber-button-group{
     width: 40px;

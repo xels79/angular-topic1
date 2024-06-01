@@ -6,6 +6,8 @@ import { IUser } from 'src/app/models/IUser';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { UserService } from 'src/app/services/user/user.service';
 import { passwordConfirmViladator, passwordStrength } from '../../validators/password';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { ConfigService } from 'src/app/services/config-service/config-service.service';
 
 @Component({
   selector: 'app-change-password',
@@ -19,6 +21,7 @@ export class ChangePasswordComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private messageService: MessageService,
+    private http: HttpClient
   ) { }
 
   ngOnInit(): void {
@@ -41,25 +44,50 @@ export class ChangePasswordComponent implements OnInit {
 
   saveClick():void{
     console.log('Save click');
-    if (this.user.getUser()?.pswd!==this.oldPassword.value){
-      this.oldPassword.setErrors({
-        wrongPassword:{ value: this.oldPassword.value }
-      });
-      this.messageService.add({severity:"error", summary:"Ошибка!", detail:"Невернвй пароль."});
-    }else{
+    // if (this.user.getUser()?.pswd!==this.oldPassword.value){
+    //   this.oldPassword.setErrors({
+    //     wrongPassword:{ value: this.oldPassword.value }
+    //   });
+    //   this.messageService.add({severity:"error", summary:"Ошибка!", detail:"Невернвй пароль."});
+    // }else{
       const user:IUser | null = this.user.getUser();
       if (user){
-        user.pswd = this.newPassword.value;
-        this.authService.updateUser( user );
-        console.log('updateUser', user);
-        this.messageService.add({severity:"info",summary:'Успех.', detail:`Пароль пользователя "${user.username}" успешно изменён.`});
-        this.authService.logout();
-        setTimeout(()=>{
-          this.router.navigate(['/auth']);
-          this.messageService.add({severity:"error",summary:'Внимание!', detail:'Требуется повторная авторизация!'});
-        },1000);
+        // user.pswd = this.newPassword.value;
+        // this.authService.updateUser( user );
+        // console.log('updateUser', user);
+        // this.messageService.add({severity:"info",summary:'Успех.', detail:`Пароль пользователя "${user.username}" успешно изменён.`});
+        // this.authService.logout();
+        // setTimeout(()=>{
+        //   this.router.navigate(['/auth']);
+        //   this.messageService.add({severity:"error",summary:'Внимание!', detail:'Требуется повторная авторизация!'});
+        // },1000);
+        const requestBody = {
+          ...user,
+          ...{
+            newPassword:this.newPassword.value,
+            oldPassword:this.oldPassword.value
+          }
+        };
+        this.http.put<IUser>(ConfigService.createURL(`users/${user._id}`), requestBody).subscribe({
+          next: (data)=>{
+            console.log("Pass chg",data);
+            this.messageService.add({severity:"info",summary:'Успех.', detail:`Пароль пользователя "${data.username}" успешно изменён.`});
+            setTimeout(()=>{
+              this.authService.logout();
+              this.router.navigate(['/auth']);
+              this.messageService.add({severity:"error",summary:'Внимание!', detail:'Требуется повторная авторизация!'});
+            },1000);
+      },
+          error: (err:HttpErrorResponse)=>{
+            if (err.error){
+              this.messageService.add({severity:'error', summary:'Ошибка', detail:err.error.message});
+            }else{
+              this.messageService.add({severity:'error', summary:'Ошибка сервера', detail:err.message});
+            }
+          }
+        });
       }
-    }
+    // }
   }
 
 }

@@ -41,6 +41,9 @@ export class AsideComponent implements OnInit, OnDestroy {
       {type: 'custom', label : 'Обычное'},
       {type: 'extended', label : 'Расширенное'},
     ];
+    this.ticketService.$ticketSubject.subscribe(data=>{
+      this.selectedTourType = data;
+    });
   }
 
   ngOnDestroy(): void {
@@ -53,7 +56,7 @@ export class AsideComponent implements OnInit, OnDestroy {
       this.ticketService.updateTour(ev.value);
     }
   }
-  
+
   checkDate(){
     if (this.selectedTourDate != this.oldSelectedTourDate){
       this.oldSelectedTourDate = this.selectedTourDate;
@@ -64,7 +67,7 @@ export class AsideComponent implements OnInit, OnDestroy {
       }
     }
   }
-  
+
   initRestError(): void {
     this.ticketService.getError().subscribe({
       next:(data) => {},
